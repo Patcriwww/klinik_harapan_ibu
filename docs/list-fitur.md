@@ -34,9 +34,6 @@ Tahap 3
 
 
 
-
-
-
 1. List Fitur Aplikasi Klinik Harapan Ibu (as Pasien):
     Autentifikasi (Login & Register)
         Login
@@ -137,7 +134,6 @@ List Fitur Aplikasi Klinik Harapan Ibu (as Pimpinan):
         Konfigurasi Klinik
         Manajemen Pengguna & Hak Akses
         Manajemen Layanan & Tarif
-        Keamanan & Backup
 
     Profile Pimpinan
         Visi Digital Sanctuary
