@@ -41,12 +41,12 @@ composer install
 cp .env.example .env
 Konfigurasi Database PostgreSQL
 Lalu ubah file .env menjadi seperti berikut:
-DB_CONNECTION=pgsql
-DB_HOST=127.0.0.1
-DB_PORT=5432
-DB_DATABASE=klinik_harapan_ibu
-DB_USERNAME=postgres (sesusikan dengan usernamene)
-DB_PASSWORD=password (sesusikan dengan password saat setup postgres)
+- DB_CONNECTION=pgsql
+- DB_HOST=127.0.0.1
+- DB_PORT=5432
+- DB_DATABASE=klinik_harapan_ibu
+- DB_USERNAME=postgres (sesusikan dengan usernamene)
+- DB_PASSWORD=password (sesusikan dengan password saat setup postgres)
 
 ## 6. Generate Key
 php artisan key:generate
