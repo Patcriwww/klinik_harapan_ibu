@@ -26,8 +26,7 @@ Dokumentasi ini digunakan untuk menjalankan project secara lokal dengan konfigur
 ## 1. Install Requirement
 - PHP >= 8.2
 - Composer
-- MySQL
-- Node.js
+- PostgreSQL
 
 ## 2. Clone Repository
 git clone https://gitlab.com/ginaindriani/klinik_harapan_ibu.git
@@ -40,6 +39,14 @@ composer install
 
 ## 5. Copy ENV
 cp .env.example .env
+Konfigurasi Database PostgreSQL
+Lalu ubah file .env menjadi seperti berikut:
+DB_CONNECTION=pgsql
+DB_HOST=127.0.0.1
+DB_PORT=5432
+DB_DATABASE=klinik_harapan_ibu
+DB_USERNAME=postgres (sesusikan dengan usernamene)
+DB_PASSWORD=password (sesusikan dengan password saat setup postgres)
 
 ## 6. Generate Key
 php artisan key:generate
