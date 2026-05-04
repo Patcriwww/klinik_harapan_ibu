@@ -6,6 +6,10 @@ use App\Http\Controllers\Backoffice\DashboardController;
 use App\Http\Controllers\Backoffice\UserManagementController;
 use App\Http\Controllers\Backoffice\RoleController;
 use App\Http\Controllers\Backoffice\PermissionController;
+use App\Http\Controllers\Backoffice\ProfileController;
+use App\Http\Controllers\Auth\PatientRegisterController;
+
+
 
 Auth::routes();
 
@@ -14,6 +18,12 @@ Route::get('/', function () {
         ? redirect()->route('admin.backoffice.dashboard')
         : redirect()->route('login');
 });
+
+Route::get('/register-pasien', [PatientRegisterController::class, 'showRegisterForm'])
+    ->name('pasien.register');
+
+Route::post('/register-pasien', [PatientRegisterController::class, 'register'])
+    ->name('pasien.register.store');
 
 Route::middleware(['auth'])
     ->prefix('admin/backoffice')
@@ -27,11 +37,9 @@ Route::middleware(['auth'])
         Route::resource('users', UserManagementController::class);
         Route::resource('roles', RoleController::class);
         Route::resource('permissions', PermissionController::class);
-
+        
         Route::post('roles/{role}/permissions', [RoleController::class, 'syncPermissions'])
             ->name('roles.sync-permissions');
 
-        Route::get('/profile', function () {
-            return view('profile.edit');
-            })->name('profile.edit');
+        Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
     });

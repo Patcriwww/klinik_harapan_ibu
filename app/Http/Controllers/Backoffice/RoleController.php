@@ -4,62 +4,75 @@ namespace App\Http\Controllers\Backoffice;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 class RoleController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $roles = Role::with('permissions')->orderBy('name')->get();
+        $permissions = Permission::orderBy('name')->get();
+
+        $totalRoles = Role::count();
+        $totalPermissions = Permission::count();
+        $totalRolePermissions = $roles->sum(fn($role) => $role->permissions->count());
+
+        return view('backoffice.roles.index', compact(
+            'roles',
+            'permissions',
+            'totalRoles',
+            'totalPermissions',
+            'totalRolePermissions'
+        ));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|unique:roles,name',
+        ]);
+
+        Role::create([
+            'name' => strtolower(str_replace(' ', '_', $request->name)),
+            'guard_name' => 'web',
+        ]);
+
+        return redirect()
+            ->route('admin.backoffice.roles.index')
+            ->with('success', 'Role berhasil ditambahkan.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function update(Request $request, Role $role)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|unique:roles,name,' . $role->id,
+        ]);
+
+        $role->update([
+            'name' => strtolower(str_replace(' ', '_', $request->name)),
+        ]);
+
+        return redirect()
+            ->route('admin.backoffice.roles.index')
+            ->with('success', 'Role berhasil diperbarui.');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function destroy(Role $role)
     {
-        //
+        $role->delete();
+
+        return redirect()
+            ->route('admin.backoffice.roles.index')
+            ->with('success', 'Role berhasil dihapus.');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function syncPermissions(Request $request, Role $role)
     {
-        //
-    }
+        $role->syncPermissions($request->permissions ?? []);
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return redirect()
+            ->route('admin.backoffice.roles.index')
+            ->with('success', 'Permission role berhasil diperbarui.');
     }
 }
