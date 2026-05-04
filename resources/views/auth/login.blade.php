@@ -238,6 +238,10 @@
           font-weight: 800;
           cursor: pointer;
           box-shadow: 0 8px 14px rgba(34, 197, 94, 0.18);
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          text-decoration: none;
       }
   
       .info-box {
@@ -404,9 +408,9 @@
 
                         <div class="divider">Atau</div>
 
-                        <button type="button" class="btn-register">
+                        <a href="{{ route('pasien.register') }}" class="btn-register">
                             👥 Daftar Baru
-                        </button>
+                        </a>
 
                         <div class="info-box">
                           <div class="info-icon">
@@ -428,7 +432,7 @@
         </section>
 
         <footer class="footer">
-            <div>© 2024 Klinik Harapan Ibu dan Anak. Digital Sanctuary for Maternal Care.</div>
+            <div>© 2026 Klinik Harapan Ibu dan Anak. Digital Sanctuary for Maternal Care.</div>
             <div>
                 <a href="#">Kebijakan Privasi</a>
                 <a href="#">Syarat & Ketentuan</a>

@@ -29,11 +29,10 @@
           </li> -->
          
           <li class="flex items-center">
-            <a href="#" class="block px-0 py-2 text-sm font-semibold text-white transition-all ease-nav-brand">
-              <i class="fa fa-user sm:mr-1"></i>
-              @auth
-              <span class="hidden sm:inline">{{ Auth::user()->name }}</span>
-              @endauth
+            <a href="{{ route('admin.backoffice.profile.index') }}"
+              class="font-semibold text-white hover:text-blue-100 transition">
+                <i class="fa fa-user sm:mr-1"></i>
+                {{ auth()->user()->name }}
             </a>
           <li class="flex items-center pl-4 xl:hidden">
             <a href="javascript:;" class="block p-0 text-sm text-white transition-all ease-nav-brand" sidenav-trigger>

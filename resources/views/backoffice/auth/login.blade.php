@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{{-- <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
@@ -354,7 +354,7 @@
         </div>
 
         <footer class="footer">
-            <div>© 2024 Klinik Harapan Ibu dan Anak. Digital Sanctuary for Maternal Care.</div>
+            <div>© 2026 Klinik Harapan Ibu dan Anak. Digital Sanctuary for Maternal Care.</div>
             <div>
                 <a href="#">Kebijakan Privasi</a>
                 <a href="#">Syarat & Ketentuan</a>
@@ -363,4 +363,4 @@
         </footer>
     </main>
 </body>
-</html>
+</html> --}}
