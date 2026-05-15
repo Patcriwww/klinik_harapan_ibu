@@ -35,7 +35,7 @@
             ],
             [
                 'title' => 'Data Tenaga Medis',
-                'url' => url('/admin/backoffice/tenaga-medis'),
+                'url' => route('admin.backoffice.tenaga-medis.index'),
                 'active' => request()->is('admin/backoffice/tenaga-medis*'),
                 'icon' => 'ni ni-badge',
                 'color' => '#4f46e5',
@@ -43,27 +43,28 @@
             ],
             [
                 'title' => 'Data Layanan',
-                'url' => url('/admin/backoffice/layanan'),
+                'url' => route('admin.backoffice.layanan.index'),
                 'active' => request()->is('admin/backoffice/layanan*'),
                 'icon' => 'ni ni-fat-add',
                 'color' => '#ef4444',
                 'permission' => 'layanan.view',
             ],
+            
             [
                 'title' => 'Jadwal Praktik',
-                'url' => url('/admin/backoffice/jadwal'),
-                'active' => request()->is('admin/backoffice/jadwal*'),
+                'url' => route('admin.backoffice.jadwal-praktik.index'),
+                'active' => request()->is('admin/backoffice/jadwal-praktik*'),
                 'icon' => 'ni ni-calendar-grid-58',
                 'color' => '#f97316',
                 'permission' => 'jadwal.view',
             ],
             [
                 'title' => 'Booking & Antrian',
-                'url' => url('/admin/backoffice/antrian'),
-                'active' => request()->is('admin/backoffice/antrian*'),
+                'url' => route('admin.backoffice.booking-antrian.index'),
+                'active' => request()->is('admin/backoffice/booking-antrian*'),
                 'icon' => 'ni ni-bullet-list-67',
                 'color' => '#06b6d4',
-                'permission' => 'antrian.view',
+                'permission' => 'booking.read',
             ],
             [
                 'title' => 'Pembayaran',
@@ -118,7 +119,7 @@
             ],
             [
                 'title' => 'Jadwal Konsultasi',
-                'url' => url('/pasien/jadwal-konsultasi'),
+                'url' => route('pasien.jadwal-konsultasi.index'),
                 'active' => request()->is('pasien/jadwal-konsultasi*'),
                 'icon' => 'ni ni-calendar-grid-58',
                 'color' => '#4f46e5',

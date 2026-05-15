@@ -8,6 +8,12 @@ use App\Http\Controllers\Backoffice\RoleController;
 use App\Http\Controllers\Backoffice\PermissionController;
 use App\Http\Controllers\Backoffice\ProfileController;
 use App\Http\Controllers\Auth\PatientRegisterController;
+use App\Http\Controllers\Backoffice\LayananController;
+use App\Http\Controllers\Backoffice\TenagaMedisController;
+use App\Http\Controllers\Backoffice\JadwalPraktikController;
+use App\Http\Controllers\Pasien\DokterController;
+use App\Http\Controllers\Pasien\JadwalKonsultasiController;
+use App\Http\Controllers\Backoffice\BookingAntrianController;
 
 
 
@@ -42,4 +48,28 @@ Route::middleware(['auth'])
             ->name('roles.sync-permissions');
 
         Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+
+
+        Route::resource('layanan', LayananController::class);
+        Route::resource('tenaga-medis', TenagaMedisController::class);
+        Route::resource('jadwal-praktik', JadwalPraktikController::class);
+        Route::get('booking-antrian', [BookingAntrianController::class, 'index'])
+            ->name('booking-antrian.index');
+
+        Route::patch('booking-antrian/{booking}/status', [BookingAntrianController::class, 'updateStatus'])
+            ->name('booking-antrian.update-status');
+    });
+
+    Route::middleware(['auth'])
+    ->prefix('pasien')
+    ->name('pasien.')
+    ->group(function () {
+        Route::get('/jadwal-konsultasi', [JadwalKonsultasiController::class, 'index'])
+            ->name('jadwal-konsultasi.index');
+
+        Route::post('/jadwal-konsultasi/booking', [JadwalKonsultasiController::class, 'store'])
+            ->name('jadwal-konsultasi.store');
+
+        Route::get('/riwayat-booking', [JadwalKonsultasiController::class, 'riwayat'])
+            ->name('jadwal-konsultasi.riwayat');
     });
