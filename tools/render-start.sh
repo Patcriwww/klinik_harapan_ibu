@@ -7,6 +7,11 @@ mkdir -p storage/framework/views
 mkdir -p storage/logs
 mkdir -p bootstrap/cache
 
+if [ -z "${APP_KEY:-}" ]; then
+  export APP_KEY="base64:$(php -r 'echo base64_encode(random_bytes(32));')"
+  echo "APP_KEY was missing; generated a temporary application key for this container."
+fi
+
 php artisan optimize:clear || true
 php artisan storage:link || true
 php artisan migrate --force || true

@@ -76,9 +76,12 @@ Project ini sudah disiapkan untuk deploy Docker di Render.
 - `DB_DATABASE=<nama-db>`
 - `DB_USERNAME=<username-db>`
 - `DB_PASSWORD=<password-db>`
+- `CACHE_STORE=file`
 - `SESSION_DRIVER=file`
 - `SESSION_SECURE_COOKIE=true`
 - `SESSION_SAME_SITE=lax`
+
+`APP_KEY` wajib diisi. Jika belum di-set di Render, startup script akan membuat key sementara agar aplikasi tidak langsung `500`, tetapi sebaiknya tetap simpan `APP_KEY` yang tetap di environment Render supaya sesi/login tidak ikut reset saat container berganti.
 
 2. Saat container start, file [tools/render-start.sh](D:/Mata%20Kuliah/SEMESTER%206/PPL/klinik_harapan_ibu/tools/render-start.sh:1) akan:
 - menyiapkan folder `storage` dan `bootstrap/cache`
