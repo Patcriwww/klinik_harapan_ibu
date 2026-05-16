@@ -357,7 +357,7 @@
                         Silakan masuk untuk mengakses rekam medis dan jadwal konsultasi Anda.
                     </p>
 
-                    <form method="POST" action="{{ route('login') }}">
+                    <form method="POST" action="{{ route('login', absolute: false) }}">
                         @csrf
 
                         <label class="form-label">Email</label>
