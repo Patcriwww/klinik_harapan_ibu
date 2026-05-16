@@ -396,7 +396,7 @@
                             >
                         </div>
 
-                        @if ($errors->any())
+                        @if (isset($errors) && $errors->any())
                             <div class="error-box">
                                 {{ $errors->first() }}
                             </div>

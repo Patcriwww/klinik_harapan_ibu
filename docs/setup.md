@@ -4,7 +4,7 @@ Dokumentasi ini digunakan untuk menjalankan project secara lokal dengan konfigur
 ## 1. Install Requirement
 - PHP >= 8.2
 - Composer
-- MySQL
+- PostgreSQL
 - Node.js
 
 ## 2. Clone Repository
@@ -28,5 +28,9 @@ php artisan key:generate
 
 ## 8. Jalankan Project
 php artisan serve
+
+## Catatan
+- File `.env.example` sudah disediakan di root project.
+- Dependency backend dikonfigurasi untuk PHP `8.2+`.
 
 
