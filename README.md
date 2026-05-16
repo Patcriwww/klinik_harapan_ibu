@@ -58,4 +58,9 @@ php artisan key:generate
 ## 8. Jalankan Project
 php artisan serve
 
+## Catatan
+- File `.env.example` tersedia di root project.
+- Project dikonfigurasi untuk berjalan di PHP `8.2+` dengan `spatie/laravel-permission` seri `6.x`.
 
+
+# klinik_harapan_ibu
