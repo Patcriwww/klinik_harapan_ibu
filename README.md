@@ -62,6 +62,32 @@ php artisan serve
 - File `.env.example` tersedia di root project.
 - Project dikonfigurasi untuk berjalan di PHP `8.2+` dengan `spatie/laravel-permission` seri `6.x`.
 
+## Deploy ke Render
+Project ini sudah disiapkan untuk deploy Docker di Render.
+
+1. Pastikan service memakai `render.yaml` atau isi environment variables berikut di Render:
+- `APP_ENV=production`
+- `APP_DEBUG=false`
+- `APP_URL=https://domain-kamu.onrender.com`
+- `APP_KEY=<app-key-laravel>`
+- `DB_CONNECTION=pgsql`
+- `DB_HOST=<host-postgres-render>`
+- `DB_PORT=5432`
+- `DB_DATABASE=<nama-db>`
+- `DB_USERNAME=<username-db>`
+- `DB_PASSWORD=<password-db>`
+- `SESSION_DRIVER=file`
+- `SESSION_SECURE_COOKIE=true`
+- `SESSION_SAME_SITE=lax`
+
+2. Saat container start, file [tools/render-start.sh](D:/Mata%20Kuliah/SEMESTER%206/PPL/klinik_harapan_ibu/tools/render-start.sh:1) akan:
+- menyiapkan folder `storage` dan `bootstrap/cache`
+- menjalankan `php artisan storage:link`
+- menjalankan `php artisan migrate --force`
+- menjalankan `php artisan db:seed --force`
+
+3. Health check Render bisa diarahkan ke `/up`.
+
 
 # klinik_harapan_ibu
 # klinik_harapan_ibu
