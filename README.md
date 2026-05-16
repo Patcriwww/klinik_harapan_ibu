@@ -98,6 +98,8 @@ Kalau deploy ke Railway, service database mereka sering menyediakan environment 
 
 Project ini sekarang membaca fallback variable Railway tersebut secara otomatis, jadi tidak wajib menyalin semuanya ke format `DB_*` selama `DB_CONNECTION=pgsql` sudah benar.
 
+Saat container start, [tools/render-start.sh](D:/Mata%20Kuliah/SEMESTER%206/PPL/klinik_harapan_ibu/tools/render-start.sh:1) juga akan mencoba memetakan `PG*` atau `POSTGRES_*` ke `DB_*` secara otomatis sebelum Laravel boot.
+
 
 # klinik_harapan_ibu
 # klinik_harapan_ibu
