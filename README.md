@@ -73,11 +73,13 @@ Project ini sudah disiapkan untuk deploy Docker di Render.
 - `DB_CONNECTION=pgsql`
 - `DB_HOST=<host-postgres-render>`
 - `DB_PORT=5432`
+- `DB_SSLMODE=require`
 - `DB_DATABASE=<nama-db>`
 - `DB_USERNAME=<username-db>`
 - `DB_PASSWORD=<password-db>`
 - `CACHE_STORE=file`
 - `SESSION_DRIVER=file`
+- `LOG_CHANNEL=stderr`
 - `SESSION_SECURE_COOKIE=true`
 - `SESSION_SAME_SITE=lax`
 

@@ -9,6 +9,10 @@ services:
         value: production
       - key: APP_DEBUG
         value: "false"
+      - key: LOG_CHANNEL
+        value: stderr
+      - key: LOG_LEVEL
+        value: debug
       - key: APP_URL
         sync: false
       - key: APP_KEY
@@ -19,6 +23,8 @@ services:
         sync: false
       - key: DB_PORT
         value: "5432"
+      - key: DB_SSLMODE
+        value: require
       - key: DB_DATABASE
         sync: false
       - key: DB_USERNAME
