@@ -29,11 +29,12 @@
           </li> -->
          
           <li class="flex items-center">
-            <a href="{{ route('admin.backoffice.profile.index') }}"
+            <a href="{{ auth()->check() ? route('admin.backoffice.profile.index') : route('login', absolute: false) }}"
               class="font-semibold text-white hover:text-blue-100 transition">
                 <i class="fa fa-user sm:mr-1"></i>
-                {{ auth()->user()->name }}
+                {{ auth()->user()?->name ?? 'Guest' }}
             </a>
+          </li>
           <li class="flex items-center pl-4 xl:hidden">
             <a href="javascript:;" class="block p-0 text-sm text-white transition-all ease-nav-brand" sidenav-trigger>
               <div class="w-4.5 overflow-hidden">
