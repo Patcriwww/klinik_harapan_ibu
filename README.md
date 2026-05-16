@@ -93,6 +93,11 @@ Project ini sudah disiapkan untuk deploy Docker di Render.
 
 3. Health check Render bisa diarahkan ke `/up`.
 
+## Catatan Railway
+Kalau deploy ke Railway, service database mereka sering menyediakan environment variable seperti `DATABASE_URL`, `PGHOST`, `PGPORT`, `PGDATABASE`, `PGUSER`, dan `PGPASSWORD`.
+
+Project ini sekarang membaca fallback variable Railway tersebut secara otomatis, jadi tidak wajib menyalin semuanya ke format `DB_*` selama `DB_CONNECTION=pgsql` sudah benar.
+
 
 # klinik_harapan_ibu
 # klinik_harapan_ibu
