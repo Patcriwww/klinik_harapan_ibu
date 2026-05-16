@@ -100,6 +100,8 @@ Project ini sekarang membaca fallback variable Railway tersebut secara otomatis,
 
 Saat container start, [tools/render-start.sh](D:/Mata%20Kuliah/SEMESTER%206/PPL/klinik_harapan_ibu/tools/render-start.sh:1) juga akan mencoba memetakan `PG*` atau `POSTGRES_*` ke `DB_*` secara otomatis sebelum Laravel boot.
 
+Kalau environment database PostgreSQL tidak tersedia sama sekali di runtime, startup script akan fallback ke SQLite lokal supaya aplikasi tetap bisa boot untuk demo. Data SQLite ini cocok untuk testing, tetapi tidak ideal untuk penyimpanan permanen production.
+
 
 # klinik_harapan_ibu
 # klinik_harapan_ibu
