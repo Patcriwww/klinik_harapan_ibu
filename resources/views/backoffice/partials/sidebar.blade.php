@@ -8,8 +8,8 @@
             $role = 'admin';
         } elseif ($user->hasRole('pasien')) {
             $role = 'pasien';
-        } elseif ($user->hasRole('tenaga_medis')) {
-            $role = 'tenaga_medis';
+        } elseif ($user->hasRole('dokter')) {
+            $role = 'dokter';
         } elseif ($user->hasRole('pimpinan')) {
             $role = 'pimpinan';
         }
@@ -39,7 +39,7 @@
                 'active' => request()->is('admin/backoffice/tenaga-medis*'),
                 'icon' => 'ni ni-badge',
                 'color' => '#4f46e5',
-                'permission' => 'tenaga-medis.view',
+                'permission' => 'dokter.view',
             ],
             [
                 'title' => 'Data Layanan',
@@ -64,7 +64,7 @@
                 'active' => request()->is('admin/backoffice/booking-antrian*'),
                 'icon' => 'ni ni-bullet-list-67',
                 'color' => '#06b6d4',
-                'permission' => 'booking.read',
+                'permission' => 'booking.view',
             ],
             [
                 'title' => 'Pembayaran',
@@ -96,7 +96,7 @@
                 'active' => request()->is('admin/backoffice/permissions*'),
                 'icon' => 'ni ni-lock-circle-open',
                 'color' => '#dc2626',
-                'permission' => 'permissions.view',
+                'permission' => 'roles.view',
             ],
             [
                 'title' => 'Pengaturan Sistem',
@@ -139,7 +139,7 @@
                 'active' => request()->is('pasien/catatan-pertumbuhan*'),
                 'icon' => 'ni ni-chart-bar-32',
                 'color' => '#f97316',
-                'permission' => 'catatan-pertumbuhan.view',
+                'permission' => 'rekam-medis.view',
             ],
             [
                 'title' => 'Layanan Klinik',
@@ -167,7 +167,7 @@
             ],
         ],
 
-        'tenaga_medis' => [
+        'dokter' => [
             [
                 'title' => 'Dashboard',
                 'url' => url('/tenaga-medis/dashboard'),
@@ -214,7 +214,7 @@
                 'active' => request()->is('tenaga-medis/hasil-lab*'),
                 'icon' => 'ni ni-atom',
                 'color' => '#14b8a6',
-                'permission' => 'hasil-lab.view',
+                'permission' => 'rekam-medis.view',
             ],
             [
                 'title' => 'Profil Tenaga Medis',
@@ -222,7 +222,7 @@
                 'active' => request()->is('tenaga-medis/profil*'),
                 'icon' => 'ni ni-badge',
                 'color' => '#64748b',
-                'permission' => 'profile.view',
+                'permission' => 'dashboard.view',
             ],
         ],
 
@@ -265,7 +265,7 @@
                 'active' => request()->is('pimpinan/tenaga-medis*'),
                 'icon' => 'ni ni-badge',
                 'color' => '#06b6d4',
-                'permission' => 'tenaga-medis.view',
+                'permission' => 'dokter.view',
             ],
             [
                 'title' => 'Laporan Keuangan',
@@ -273,7 +273,7 @@
                 'active' => request()->is('pimpinan/laporan-keuangan*'),
                 'icon' => 'ni ni-money-coins',
                 'color' => '#22c55e',
-                'permission' => 'laporan-keuangan.view',
+                'permission' => 'pembayaran.view',
             ],
             [
                 'title' => 'Profil Pimpinan',
@@ -281,7 +281,7 @@
                 'active' => request()->is('pimpinan/profil*'),
                 'icon' => 'ni ni-circle-08',
                 'color' => '#64748b',
-                'permission' => 'profile.view',
+                'permission' => 'dashboard.view',
             ],
         ],
     ];
