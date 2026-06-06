@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\TenagaMedis;
 use App\Models\JadwalPraktik;
 use App\Models\BookingKonsultasi;
+use App\Models\Pembayaran;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
@@ -126,6 +127,14 @@ class JadwalKonsultasiController extends Controller
             'status' => 'menunggu',
         ]);
 
+        Pembayaran::create([
+            'booking_konsultasi_id' => $booking->id,
+            'invoice_no' => 'INV-' . now()->format('YmdHis') . '-' . strtoupper(Str::random(4)),
+            'nominal' => 50000,
+            'metode' => 'Transfer Bank',
+            'status' => 'pending',
+        ]);
+
         return response()->json([
             'success' => true,
             'message' => 'Booking berhasil dibuat.',
@@ -136,11 +145,37 @@ class JadwalKonsultasiController extends Controller
 
     public function riwayat()
     {
-        $bookings = BookingKonsultasi::with(['tenagaMedis', 'jadwalPraktik'])
+        $bookings = BookingKonsultasi::with([
+                'tenagaMedis',
+                'jadwalPraktik',
+                'pembayaran'
+            ])
             ->where('user_id', auth()->id())
             ->latest()
             ->get();
 
         return view('pasien.jadwal-konsultasi.riwayat', compact('bookings'));
+    }
+
+    public function tiket(BookingKonsultasi $booking)
+    {
+        if ($booking->user_id !== auth()->id()) {
+            abort(403);
+        }
+
+        $booking->load([
+            'tenagaMedis',
+            'jadwalPraktik',
+            'pembayaran',
+            'pasien',
+        ]);
+
+        if (!$booking->pembayaran || $booking->pembayaran->status !== 'dibayar') {
+            return redirect()
+                ->route('pasien.jadwal-konsultasi.riwayat')
+                ->with('error', 'Tiket digital hanya tersedia setelah pembayaran disetujui.');
+        }
+
+        return view('pasien.jadwal-konsultasi.tiket', compact('booking'));
     }
 }

@@ -187,8 +187,54 @@
         }
 
         .booking-table {
-            min-width: 1000px;
+            min-width: 1150px;
         }
+    }
+        .payment-admin-box {
+        min-width: 150px;
+    }
+
+    .payment-admin-invoice {
+        font-size: 12px;
+        color: #64748b;
+        margin-bottom: 6px;
+        font-weight: 800;
+    }
+
+    .payment-admin-nominal {
+        font-size: 14px;
+        color: #1e293b;
+        font-weight: 900;
+        margin-bottom: 8px;
+    }
+
+    .pay-badge {
+        display: inline-block;
+        padding: 6px 11px;
+        border-radius: 999px;
+        font-size: 11px;
+        font-weight: 900;
+        white-space: nowrap;
+    }
+
+    .pay-pending {
+        background: #fef3c7;
+        color: #d97706;
+    }
+
+    .pay-menunggu_verifikasi {
+        background: #dbeafe;
+        color: #2563eb;
+    }
+
+    .pay-dibayar {
+        background: #dcfce7;
+        color: #16a34a;
+    }
+
+    .pay-ditolak {
+        background: #fee2e2;
+        color: #dc2626;
     }
 </style>
 
@@ -237,6 +283,7 @@
                         <th>Dokter</th>
                         <th>Jadwal</th>
                         <th>Keluhan</th>
+                        <th>Pembayaran</th>
                         <th>Status</th>
                         <th>Ubah Status</th>
                     </tr>
@@ -281,6 +328,27 @@
                             <td>
                                 {{ $booking->keluhan }}
                             </td>
+                            <td>
+                                @php
+                                    $pembayaran = $booking->pembayaran;
+                                    $payStatus = $pembayaran->status ?? 'pending';
+                                    $payClass = 'pay-' . $payStatus;
+                                @endphp
+
+                                <div class="payment-admin-box">
+                                    <div class="payment-admin-invoice">
+                                        {{ $pembayaran->invoice_no ?? '-' }}
+                                    </div>
+
+                                    <div class="payment-admin-nominal">
+                                        Rp {{ number_format($pembayaran->nominal ?? 0, 0, ',', '.') }}
+                                    </div>
+
+                                    <span class="pay-badge {{ $payClass }}">
+                                        {{ ucwords(str_replace('_', ' ', $payStatus)) }}
+                                    </span>
+                                </div>
+                            </td>
 
                             <td>
                                 <span class="status-badge {{ $statusClass }}">
@@ -310,7 +378,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="7" style="text-align:center;color:#94a3b8;padding:30px;">
+                            <td colspan="8" style="text-align:center;color:#94a3b8;padding:30px;">
                                 Belum ada data booking.
                             </td>
                         </tr>
