@@ -4,99 +4,409 @@
 @section('title', 'Data Layanan')
 
 @section('content')
-<div class="w-full px-6 py-6 mx-auto">
-    <div class="bg-white shadow-soft-xl rounded-2xl p-6">
+<style>
+    .services-page {
+        padding: 8px 0 2px;
+    }
 
-        <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+    .services-shell {
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 28px;
+        box-shadow: 0 20px 45px rgba(15, 23, 42, 0.08);
+        overflow: hidden;
+    }
+
+    .services-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 18px;
+        padding: 30px 30px 22px;
+        border-bottom: 1px solid #eef2f7;
+        background:
+            radial-gradient(circle at top right, rgba(244, 114, 182, 0.12), transparent 28%),
+            linear-gradient(180deg, #ffffff 0%, #fffafc 100%);
+    }
+
+    .services-title {
+        margin: 0;
+        font-size: 32px;
+        line-height: 1.1;
+        font-weight: 900;
+        color: #1e293b;
+    }
+
+    .services-subtitle {
+        margin: 10px 0 0;
+        font-size: 15px;
+        color: #64748b;
+        max-width: 640px;
+    }
+
+    .services-toolbar {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-shrink: 0;
+    }
+
+    .services-meta {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 14px;
+        background: #fdf2f8;
+        border-radius: 999px;
+        color: #db2777;
+        font-size: 13px;
+        font-weight: 800;
+        white-space: nowrap;
+    }
+
+    .services-add-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        padding: 14px 20px;
+        border-radius: 16px;
+        background: linear-gradient(135deg, #0ea5e9, #2563eb);
+        color: #ffffff;
+        font-size: 14px;
+        font-weight: 800;
+        text-decoration: none;
+        box-shadow: 0 14px 28px rgba(37, 99, 235, 0.22);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .services-add-btn:hover {
+        color: #ffffff;
+        transform: translateY(-1px);
+        box-shadow: 0 18px 32px rgba(37, 99, 235, 0.28);
+    }
+
+    .services-body {
+        padding: 18px 18px 22px;
+    }
+
+    .services-table-wrap {
+        overflow-x: auto;
+        border-radius: 22px;
+        background: #f8fafc;
+        border: 1px solid #eef2f7;
+        padding: 10px;
+    }
+
+    .services-table {
+        width: 100%;
+        min-width: 1080px;
+        border-collapse: separate;
+        border-spacing: 0 10px;
+    }
+
+    .services-table th {
+        padding: 10px 16px 14px;
+        font-size: 12px;
+        font-weight: 900;
+        color: #64748b;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        text-align: left;
+    }
+
+    .services-table th.center,
+    .services-table td.center {
+        text-align: center;
+    }
+
+    .services-table td {
+        padding: 18px 16px;
+        background: #ffffff;
+        color: #334155;
+        font-size: 14px;
+        vertical-align: middle;
+        border-top: 1px solid #eef2f7;
+        border-bottom: 1px solid #eef2f7;
+    }
+
+    .services-table td:first-child {
+        border-left: 1px solid #eef2f7;
+        border-radius: 18px 0 0 18px;
+    }
+
+    .services-table td:last-child {
+        border-right: 1px solid #eef2f7;
+        border-radius: 0 18px 18px 0;
+    }
+
+    .services-table tr:hover td {
+        background: #fffdfd;
+    }
+
+    .services-number {
+        width: 56px;
+        text-align: center;
+        font-size: 20px;
+        font-weight: 900;
+        color: #db2777;
+    }
+
+    .services-name {
+        min-width: 340px;
+    }
+
+    .services-name strong {
+        display: block;
+        color: #1e293b;
+        font-size: 16px;
+        font-weight: 800;
+    }
+
+    .services-description {
+        margin-top: 4px;
+        color: #64748b;
+        font-size: 13px;
+        line-height: 1.5;
+    }
+
+    .services-pill {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 8px 14px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 900;
+        white-space: nowrap;
+    }
+
+    .services-pill-purple {
+        background: #f5f3ff;
+        color: #7c3aed;
+    }
+
+    .services-pill-green {
+        background: #dcfce7;
+        color: #16a34a;
+    }
+
+    .services-pill-red {
+        background: #fee2e2;
+        color: #dc2626;
+    }
+
+    .services-price {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .services-price strong {
+        color: #0f172a;
+        font-size: 18px;
+        font-weight: 900;
+    }
+
+    .services-price span {
+        color: #94a3b8;
+        font-size: 12px;
+    }
+
+    .services-actions {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+
+    .services-action-link,
+    .services-action-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 74px;
+        padding: 9px 14px;
+        border: none;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: 800;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        cursor: pointer;
+    }
+
+    .services-action-link {
+        background: #eff6ff;
+        color: #2563eb;
+    }
+
+    .services-action-link:hover {
+        background: #dbeafe;
+        color: #1d4ed8;
+    }
+
+    .services-action-btn {
+        background: #fef2f2;
+        color: #dc2626;
+    }
+
+    .services-action-btn:hover {
+        background: #fee2e2;
+    }
+
+    .services-empty {
+        padding: 54px 24px !important;
+        text-align: center;
+        color: #94a3b8;
+        font-size: 15px;
+        font-weight: 700;
+        border-radius: 18px !important;
+        border: 1px dashed #cbd5e1 !important;
+        background: #ffffff !important;
+    }
+
+    @media (max-width: 1100px) {
+        .services-header {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .services-toolbar {
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+    }
+
+    @media (max-width: 640px) {
+        .services-page {
+            padding-top: 0;
+        }
+
+        .services-header {
+            padding: 24px 20px 18px;
+        }
+
+        .services-body {
+            padding: 12px;
+        }
+
+        .services-title {
+            font-size: 26px;
+        }
+
+        .services-add-btn {
+            width: 100%;
+        }
+
+        .services-meta {
+            width: 100%;
+            justify-content: center;
+        }
+    }
+</style>
+
+<div class="services-page">
+    <div class="services-shell">
+        <div class="services-header">
             <div>
-                <h6 class="text-xl font-bold text-slate-700">Data Layanan Klinik</h6>
-                <p class="text-sm text-slate-400 mt-1">
-                    Kelola layanan konsultasi, tarif, dan durasi pelayanan klinik.
+                <h1 class="services-title">Data Layanan Klinik</h1>
+                <p class="services-subtitle">
+                    Kelola daftar layanan konsultasi, tarif, dan durasi pelayanan klinik dengan tampilan yang lebih rapi dan konsisten seperti halaman backoffice lainnya.
                 </p>
             </div>
 
-            <a href="{{ route('admin.backoffice.layanan.create') }}"
-               class="inline-flex items-center px-5 py-2.5 text-sm font-semibold text-white bg-blue-500 rounded-xl shadow hover:bg-blue-600 transition">
-                + Tambah Layanan
-            </a>
+            <div class="services-toolbar">
+                <div class="services-meta">
+                    <i class="ni ni-collection"></i>
+                    <span>{{ $layanans->count() }} layanan tersimpan</span>
+                </div>
+
+                <a href="{{ route('admin.backoffice.layanan.create') }}" class="services-add-btn">
+                    <i class="ni ni-fat-add"></i>
+                    <span>Tambah Layanan</span>
+                </a>
+            </div>
         </div>
 
-        <div class="overflow-x-auto">
-            <table id="layananTable" class="w-full text-sm">
-                <thead>
-                    <tr class="bg-slate-50 text-slate-500 uppercase text-xs">
-                        <th class="px-4 py-4 rounded-l-xl">No</th>
-                        <th class="px-4 py-4">Nama Layanan</th>
-                        <th class="px-4 py-4">Durasi</th>
-                        <th class="px-4 py-4">Harga</th>
-                        <th class="px-4 py-4">Status</th>
-                        <th class="px-4 py-4 text-center rounded-r-xl">Aksi</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    @foreach($layanans as $layanan)
-                        <tr class="border-b border-slate-100 hover:bg-slate-50 transition">
-                            <td class="px-4 py-4 font-semibold">{{ $loop->iteration }}</td>
-
-                            <td class="px-4 py-4">
-                                <div class="font-semibold text-slate-700">{{ $layanan->nama_layanan }}</div>
-                                <div class="text-xs text-slate-400">{{ $layanan->deskripsi ?? '-' }}</div>
-                            </td>
-
-                            <td class="px-4 py-4">
-                                {{ $layanan->durasi }} menit
-                            </td>
-
-                            <td class="px-4 py-4">
-                                Rp {{ number_format($layanan->harga, 0, ',', '.') }}
-                            </td>
-
-                            <td class="px-4 py-4">
-                                @if($layanan->is_active)
-                                    <span class="px-3 py-1 text-xs font-semibold rounded-full bg-green-50 text-green-600">
-                                        Aktif
-                                    </span>
-                                @else
-                                    <span class="px-3 py-1 text-xs font-semibold rounded-full bg-red-50 text-red-600">
-                                        Nonaktif
-                                    </span>
-                                @endif
-                            </td>
-
-                            <td class="px-4 py-4 text-center">
-                                <a href="{{ route('admin.backoffice.layanan.edit', $layanan->id) }}"
-                                   class="px-3 py-1.5 text-xs font-semibold text-blue-600 bg-blue-50 rounded-lg hover:bg-blue-100">
-                                    Edit
-                                </a>
-
-                                <form action="{{ route('admin.backoffice.layanan.destroy', $layanan->id) }}"
-                                      method="POST"
-                                      class="inline">
-                                    @csrf
-                                    @method('DELETE')
-
-                                    <button type="button"
-                                            onclick="confirmDelete(this)"
-                                            class="px-3 py-1.5 text-xs font-semibold text-red-600 bg-red-50 rounded-lg hover:bg-red-100">
-                                        Hapus
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
-                    @endforeach
-
-                    @if($layanans->isEmpty())
+        <div class="services-body">
+            <div class="services-table-wrap">
+                <table class="services-table">
+                    <thead>
                         <tr>
-                            <td colspan="6" class="px-4 py-6 text-center text-slate-400">
-                                Belum ada data layanan.
-                            </td>
+                            <th class="center">No</th>
+                            <th>Nama Layanan</th>
+                            <th>Durasi</th>
+                            <th>Harga</th>
+                            <th>Status</th>
+                            <th class="center">Aksi</th>
                         </tr>
-                    @endif
-                </tbody>
-            </table>
-        </div>
+                    </thead>
 
+                    <tbody>
+                        @forelse($layanans as $layanan)
+                            <tr>
+                                <td class="services-number">{{ $loop->iteration }}</td>
+
+                                <td class="services-name">
+                                    <strong>{{ $layanan->nama_layanan }}</strong>
+                                    <div class="services-description">{{ $layanan->deskripsi ?? '-' }}</div>
+                                </td>
+
+                                <td>
+                                    <span class="services-pill services-pill-purple">
+                                        {{ $layanan->durasi }} menit
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <div class="services-price">
+                                        <strong>Rp {{ number_format($layanan->harga, 0, ',', '.') }}</strong>
+                                        <span>Tarif layanan</span>
+                                    </div>
+                                </td>
+
+                                <td>
+                                    @if($layanan->is_active)
+                                        <span class="services-pill services-pill-green">Aktif</span>
+                                    @else
+                                        <span class="services-pill services-pill-red">Nonaktif</span>
+                                    @endif
+                                </td>
+
+                                <td class="center">
+                                    <div class="services-actions">
+                                        <a href="{{ route('admin.backoffice.layanan.edit', $layanan->id) }}"
+                                           class="services-action-link">
+                                            Edit
+                                        </a>
+
+                                        <form action="{{ route('admin.backoffice.layanan.destroy', $layanan->id) }}"
+                                              method="POST"
+                                              class="inline">
+                                            @csrf
+                                            @method('DELETE')
+
+                                            <button type="button"
+                                                    onclick="confirmDelete(this)"
+                                                    class="services-action-btn">
+                                                Hapus
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="6" class="services-empty">
+                                    Belum ada data layanan.
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
 @endsection

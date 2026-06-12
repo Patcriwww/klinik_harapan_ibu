@@ -63,6 +63,9 @@ Route::post('/register-pasien', [PatientRegisterController::class, 'register'])
              Route::get('/dashboard', [DashboardController::class, 'index'])
             ->name('dashboard');
 
+            Route::get('pasien', [UserManagementController::class, 'pasienIndex'])
+                ->name('pasien.index');
+
             Route::resource('users', UserManagementController::class);
             Route::resource('roles', RoleController::class);
             Route::resource('permissions', PermissionController::class);

@@ -30,7 +30,7 @@
             ],
             [
                 'title' => 'Data Pasien',
-                'url' => '#',
+                'url' => route('admin.backoffice.pasien.index'),
                 'active' => request()->is('admin/backoffice/pasien*'),
                 'icon' => 'ni ni-single-02',
                 'color' => '#10b981',

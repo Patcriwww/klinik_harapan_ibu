@@ -409,7 +409,7 @@
                         <div class="divider">Atau</div>
 
                         <a href="{{ route('pasien.register') }}" class="btn-register">
-                            👥 Daftar Baru
+                            Daftar Baru
                         </a>
 
                         <div class="info-box">
@@ -432,7 +432,7 @@
         </section>
 
         <footer class="footer">
-            <div>© 2026 Klinik Harapan Ibu dan Anak. Digital Sanctuary for Maternal Care.</div>
+            <div>&copy; 2026 Klinik Harapan Ibu dan Anak. Digital Sanctuary for Maternal Care.</div>
             <div>
                 <a href="#">Kebijakan Privasi</a>
                 <a href="#">Syarat & Ketentuan</a>

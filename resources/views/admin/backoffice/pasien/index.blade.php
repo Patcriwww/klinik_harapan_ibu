@@ -1,15 +1,15 @@
 @extends('backoffice.layouts.app')
 
-@section('breadcrumb', 'Data Tenaga Medis')
-@section('title', 'Data Tenaga Medis')
+@section('breadcrumb', 'Data Pasien')
+@section('title', 'Data Pasien')
 
 @section('content')
 <style>
-    .medics-page {
+    .patients-page {
         padding: 8px 0 2px;
     }
 
-    .medics-shell {
+    .patients-shell {
         background: #ffffff;
         border: 1px solid #e2e8f0;
         border-radius: 28px;
@@ -17,7 +17,7 @@
         overflow: hidden;
     }
 
-    .medics-header {
+    .patients-header {
         display: flex;
         justify-content: space-between;
         align-items: flex-start;
@@ -25,11 +25,11 @@
         padding: 30px 30px 22px;
         border-bottom: 1px solid #eef2f7;
         background:
-            radial-gradient(circle at top right, rgba(14, 165, 233, 0.12), transparent 28%),
-            linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+            radial-gradient(circle at top right, rgba(16, 185, 129, 0.12), transparent 28%),
+            linear-gradient(180deg, #ffffff 0%, #f8fffc 100%);
     }
 
-    .medics-title {
+    .patients-title {
         margin: 0;
         font-size: 32px;
         line-height: 1.1;
@@ -37,60 +37,60 @@
         color: #1e293b;
     }
 
-    .medics-subtitle {
+    .patients-subtitle {
         margin: 10px 0 0;
         font-size: 15px;
         color: #64748b;
-        max-width: 620px;
+        max-width: 640px;
     }
 
-    .medics-toolbar {
+    .patients-toolbar {
         display: flex;
         align-items: center;
         gap: 12px;
         flex-shrink: 0;
     }
 
-    .medics-meta {
+    .patients-meta {
         display: inline-flex;
         align-items: center;
         gap: 8px;
         padding: 10px 14px;
-        background: #eff6ff;
+        background: #ecfdf5;
         border-radius: 999px;
-        color: #2563eb;
+        color: #059669;
         font-size: 13px;
         font-weight: 800;
         white-space: nowrap;
     }
 
-    .medics-add-btn {
+    .patients-add-btn {
         display: inline-flex;
         align-items: center;
         justify-content: center;
         gap: 10px;
         padding: 14px 20px;
         border-radius: 16px;
-        background: linear-gradient(135deg, #0ea5e9, #2563eb);
+        background: linear-gradient(135deg, #10b981, #059669);
         color: #ffffff;
         font-size: 14px;
         font-weight: 800;
         text-decoration: none;
-        box-shadow: 0 14px 28px rgba(37, 99, 235, 0.22);
+        box-shadow: 0 14px 28px rgba(5, 150, 105, 0.22);
         transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
-    .medics-add-btn:hover {
+    .patients-add-btn:hover {
         color: #ffffff;
         transform: translateY(-1px);
-        box-shadow: 0 18px 32px rgba(37, 99, 235, 0.28);
+        box-shadow: 0 18px 32px rgba(5, 150, 105, 0.28);
     }
 
-    .medics-body {
+    .patients-body {
         padding: 18px 18px 22px;
     }
 
-    .medics-table-wrap {
+    .patients-table-wrap {
         overflow-x: auto;
         border-radius: 22px;
         background: #f8fafc;
@@ -98,14 +98,14 @@
         padding: 10px;
     }
 
-    .medics-table {
+    .patients-table {
         width: 100%;
         min-width: 980px;
         border-collapse: separate;
         border-spacing: 0 10px;
     }
 
-    .medics-table th {
+    .patients-table th {
         padding: 10px 16px 14px;
         font-size: 12px;
         font-weight: 900;
@@ -115,12 +115,12 @@
         text-align: left;
     }
 
-    .medics-table th.center,
-    .medics-table td.center {
+    .patients-table th.center,
+    .patients-table td.center {
         text-align: center;
     }
 
-    .medics-table td {
+    .patients-table td {
         padding: 18px 16px;
         background: #ffffff;
         color: #334155;
@@ -130,73 +130,69 @@
         border-bottom: 1px solid #eef2f7;
     }
 
-    .medics-table td:first-child {
+    .patients-table td:first-child {
         border-left: 1px solid #eef2f7;
         border-radius: 18px 0 0 18px;
     }
 
-    .medics-table td:last-child {
+    .patients-table td:last-child {
         border-right: 1px solid #eef2f7;
         border-radius: 0 18px 18px 0;
     }
 
-    .medics-table tr:hover td {
-        background: #fcfdff;
+    .patients-table tr:hover td {
+        background: #fcfffe;
     }
 
-    .medics-number {
+    .patients-number {
         width: 56px;
         text-align: center;
         font-size: 20px;
         font-weight: 900;
-        color: #2563eb;
+        color: #059669;
     }
 
-    .medics-person {
+    .patients-person {
         display: flex;
         align-items: center;
         gap: 14px;
     }
 
-    .medics-avatar,
-    .medics-avatar img {
-        width: 54px;
-        height: 54px;
+    .patients-avatar {
+        width: 52px;
+        height: 52px;
         border-radius: 16px;
-        flex-shrink: 0;
-    }
-
-    .medics-avatar {
-        overflow: hidden;
         display: flex;
         align-items: center;
         justify-content: center;
-        background: linear-gradient(135deg, #dbeafe, #bfdbfe);
-        color: #1d4ed8;
-        font-size: 20px;
+        flex-shrink: 0;
+        background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+        color: #047857;
+        font-size: 19px;
         font-weight: 900;
-        border: 1px solid #dbeafe;
+        border: 1px solid #d1fae5;
     }
 
-    .medics-avatar img {
-        object-fit: cover;
-    }
-
-    .medics-name {
+    .patients-name {
         margin: 0;
         font-size: 16px;
         font-weight: 800;
         color: #1e293b;
     }
 
-    .medics-email {
+    .patients-id {
         margin-top: 4px;
         font-size: 13px;
         color: #64748b;
+    }
+
+    .patients-email {
+        color: #334155;
+        font-weight: 700;
         word-break: break-word;
     }
 
-    .medics-pill {
+    .patients-role {
         display: inline-flex;
         align-items: center;
         justify-content: center;
@@ -204,39 +200,36 @@
         border-radius: 999px;
         font-size: 12px;
         font-weight: 900;
-        white-space: nowrap;
+        background: #ecfdf5;
+        color: #059669;
+        text-transform: capitalize;
     }
 
-    .medics-pill-blue {
-        background: #eff6ff;
-        color: #2563eb;
+    .patients-created {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
     }
 
-    .medics-pill-green {
-        background: #dcfce7;
-        color: #16a34a;
+    .patients-created strong {
+        color: #334155;
+        font-size: 14px;
     }
 
-    .medics-pill-red {
-        background: #fee2e2;
-        color: #dc2626;
+    .patients-created span {
+        color: #94a3b8;
+        font-size: 12px;
     }
 
-    .medics-sip {
-        font-weight: 800;
-        color: #475569;
-        letter-spacing: 0.02em;
-    }
-
-    .medics-actions {
+    .patients-actions {
         display: flex;
         justify-content: center;
         gap: 8px;
         flex-wrap: wrap;
     }
 
-    .medics-action-link,
-    .medics-action-btn {
+    .patients-action-link,
+    .patients-action-btn {
         display: inline-flex;
         align-items: center;
         justify-content: center;
@@ -251,26 +244,26 @@
         cursor: pointer;
     }
 
-    .medics-action-link {
+    .patients-action-link {
         background: #eff6ff;
         color: #2563eb;
     }
 
-    .medics-action-link:hover {
+    .patients-action-link:hover {
         background: #dbeafe;
         color: #1d4ed8;
     }
 
-    .medics-action-btn {
+    .patients-action-btn {
         background: #fef2f2;
         color: #dc2626;
     }
 
-    .medics-action-btn:hover {
+    .patients-action-btn:hover {
         background: #fee2e2;
     }
 
-    .medics-empty {
+    .patients-empty {
         padding: 54px 24px !important;
         text-align: center;
         color: #94a3b8;
@@ -282,132 +275,125 @@
     }
 
     @media (max-width: 1100px) {
-        .medics-header {
+        .patients-header {
             flex-direction: column;
             align-items: stretch;
         }
 
-        .medics-toolbar {
+        .patients-toolbar {
             justify-content: space-between;
             flex-wrap: wrap;
         }
     }
 
     @media (max-width: 640px) {
-        .medics-page {
+        .patients-page {
             padding-top: 0;
         }
 
-        .medics-header {
+        .patients-header {
             padding: 24px 20px 18px;
         }
 
-        .medics-body {
+        .patients-body {
             padding: 12px;
         }
 
-        .medics-title {
+        .patients-title {
             font-size: 26px;
         }
 
-        .medics-add-btn {
+        .patients-add-btn {
             width: 100%;
         }
 
-        .medics-meta {
+        .patients-meta {
             width: 100%;
             justify-content: center;
         }
     }
 </style>
 
-<div class="medics-page">
-    <div class="medics-shell">
-        <div class="medics-header">
+<div class="patients-page">
+    <div class="patients-shell">
+        <div class="patients-header">
             <div>
-                <h1 class="medics-title">Data Tenaga Medis</h1>
-                <p class="medics-subtitle">
-                    Kelola data dokter, bidan, dan tenaga kesehatan klinik dengan tampilan yang lebih rapi, cepat dipindai, dan nyaman saat diedit.
+                <h1 class="patients-title">Data Pasien</h1>
+                <p class="patients-subtitle">
+                    Kelola daftar akun pasien yang terdaftar di sistem klinik dengan tampilan yang lebih bersih, mudah dipindai, dan konsisten dengan halaman backoffice lainnya.
                 </p>
             </div>
 
-            <div class="medics-toolbar">
-                <div class="medics-meta">
-                    <i class="ni ni-single-copy-04"></i>
-                    <span>{{ $tenagaMedis->count() }} tenaga medis terdaftar</span>
+            <div class="patients-toolbar">
+                <div class="patients-meta">
+                    <i class="ni ni-single-02"></i>
+                    <span>{{ $users->count() }} pasien terdaftar</span>
                 </div>
 
-                <a href="{{ route('admin.backoffice.tenaga-medis.create') }}" class="medics-add-btn">
+                <a href="{{ route('admin.backoffice.users.create') }}" class="patients-add-btn">
                     <i class="ni ni-fat-add"></i>
-                    <span>Tambah Tenaga Medis</span>
+                    <span>Tambah Pasien</span>
                 </a>
             </div>
         </div>
 
-        <div class="medics-body">
-            <div class="medics-table-wrap">
-                <table class="medics-table">
+        <div class="patients-body">
+            <div class="patients-table-wrap">
+                <table class="patients-table">
                     <thead>
                         <tr>
                             <th class="center">No</th>
-                            <th>Tenaga Medis</th>
-                            <th>Spesialis</th>
-                            <th>SIP</th>
-                            <th>Status</th>
+                            <th>Pasien</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Terdaftar</th>
                             <th class="center">Aksi</th>
                         </tr>
                     </thead>
 
                     <tbody>
-                        @forelse($tenagaMedis as $item)
+                        @forelse($users as $user)
                             <tr>
-                                <td class="medics-number">{{ $loop->iteration }}</td>
+                                <td class="patients-number">{{ $loop->iteration }}</td>
 
                                 <td>
-                                    <div class="medics-person">
-                                        @if($item->foto)
-                                            <div class="medics-avatar">
-                                                <img src="{{ asset('storage/' . $item->foto) }}" alt="{{ $item->nama }}">
-                                            </div>
-                                        @else
-                                            <div class="medics-avatar">
-                                                {{ strtoupper(substr($item->nama, 0, 1)) }}
-                                            </div>
-                                        @endif
+                                    <div class="patients-person">
+                                        <div class="patients-avatar">
+                                            {{ strtoupper(substr($user->name, 0, 1)) }}
+                                        </div>
 
                                         <div>
-                                            <p class="medics-name">{{ $item->nama }}</p>
-                                            <div class="medics-email">{{ $item->email ?? '-' }}</div>
+                                            <p class="patients-name">{{ $user->name }}</p>
+                                            <div class="patients-id">User ID: {{ $user->id }}</div>
                                         </div>
                                     </div>
                                 </td>
 
                                 <td>
-                                    <span class="medics-pill medics-pill-blue">
-                                        {{ $item->spesialis ?? 'Belum diisi' }}
+                                    <span class="patients-email">{{ $user->email }}</span>
+                                </td>
+
+                                <td>
+                                    <span class="patients-role">
+                                        {{ $user->roles->pluck('name')->join(', ') ?: 'pasien' }}
                                     </span>
                                 </td>
 
                                 <td>
-                                    <span class="medics-sip">{{ $item->sip ?? '-' }}</span>
-                                </td>
-
-                                <td>
-                                    @if($item->is_active)
-                                        <span class="medics-pill medics-pill-green">Aktif</span>
-                                    @else
-                                        <span class="medics-pill medics-pill-red">Nonaktif</span>
-                                    @endif
+                                    <div class="patients-created">
+                                        <strong>{{ optional($user->created_at)->format('d M Y') ?? '-' }}</strong>
+                                        <span>{{ optional($user->created_at)->format('H:i') ? optional($user->created_at)->format('H:i') . ' WIB' : '' }}</span>
+                                    </div>
                                 </td>
 
                                 <td class="center">
-                                    <div class="medics-actions">
-                                        <a href="{{ route('admin.backoffice.tenaga-medis.edit', $item->id) }}"
-                                           class="medics-action-link">
+                                    <div class="patients-actions">
+                                        <a href="{{ route('admin.backoffice.users.edit', $user->id) }}"
+                                           class="patients-action-link">
                                             Edit
                                         </a>
 
-                                        <form action="{{ route('admin.backoffice.tenaga-medis.destroy', $item->id) }}"
+                                        <form action="{{ route('admin.backoffice.users.destroy', $user->id) }}"
                                               method="POST"
                                               class="inline">
                                             @csrf
@@ -415,7 +401,7 @@
 
                                             <button type="button"
                                                     onclick="confirmDelete(this)"
-                                                    class="medics-action-btn">
+                                                    class="patients-action-btn">
                                                 Hapus
                                             </button>
                                         </form>
@@ -424,8 +410,8 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="6" class="medics-empty">
-                                    Belum ada data tenaga medis.
+                                <td colspan="6" class="patients-empty">
+                                    Belum ada data pasien.
                                 </td>
                             </tr>
                         @endforelse
@@ -438,22 +424,29 @@
 @endsection
 
 @push('scripts')
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     @if(session('success'))
         Swal.fire({
             icon: 'success',
             title: 'Berhasil!',
             text: '{{ session('success') }}',
-            timer: 1800,
+            timer: 2000,
             showConfirmButton: false
+        });
+    @endif
+
+    @if(session('error'))
+        Swal.fire({
+            icon: 'error',
+            title: 'Gagal!',
+            text: '{{ session('error') }}'
         });
     @endif
 
     function confirmDelete(button) {
         Swal.fire({
             title: 'Yakin?',
-            text: 'Data tenaga medis akan dihapus!',
+            text: 'Data pasien akan dihapus permanen!',
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#ef4444',

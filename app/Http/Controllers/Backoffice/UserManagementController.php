@@ -10,6 +10,18 @@ use Spatie\Permission\Models\Role;
 
 class UserManagementController extends Controller
 {
+    public function pasienIndex()
+    {
+        $users = User::with('roles')
+            ->whereHas('roles', function ($query) {
+                $query->where('name', 'pasien');
+            })
+            ->latest()
+            ->get();
+
+        return view('admin.backoffice.pasien.index', compact('users'));
+    }
+
     public function index()
     {
         $users = User::with('roles')->latest()->get();
