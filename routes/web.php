@@ -24,9 +24,29 @@ use App\Http\Controllers\Pimpinan\DashboardPimpinanController;
 Auth::routes();
 
 Route::get('/', function () {
-    return Auth::check()
-        ? redirect()->route('admin.backoffice.dashboard')
-        : redirect()->route('login');
+    if (!auth()->check()) {
+        return redirect()->route('login');
+    }
+
+    $user = auth()->user();
+
+    if ($user->hasRole('admin')) {
+        return redirect()->route('admin.backoffice.dashboard');
+    }
+
+    if ($user->hasRole('pasien')) {
+        return redirect()->route('pasien.dashboard');
+    }
+
+    if ($user->hasRole('tenaga_medis')) {
+        return redirect()->route('tenaga-medis.dashboard');
+    }
+
+    if ($user->hasRole('pimpinan')) {
+        return redirect()->route('pimpinan.dashboard');
+    }
+
+    return redirect()->route('login');
 });
 
 Route::get('/register-pasien', [PatientRegisterController::class, 'showRegisterForm'])

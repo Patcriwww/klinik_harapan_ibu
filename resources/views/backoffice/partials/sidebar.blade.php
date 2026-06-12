@@ -83,7 +83,7 @@
         $menus = [
             [
                 'title' => 'Dashboard',
-                'url' => route('admin.backoffice.dashboard'),
+                'url' => route('pasien.dashboard'),
                 'active' => request()->is('admin/backoffice/dashboard*'),
                 'icon' => 'ni ni-tv-2',
                 'color' => '#0ea5e9',
