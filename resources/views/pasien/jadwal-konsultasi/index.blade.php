@@ -746,6 +746,11 @@
                         <br><br>
                         Kode Booking:<br>
                         <strong>${data.kode_booking}</strong>
+                        <br><br>
+                        <span style="color:#64748b;font-size:14px;">
+                            Invoice pembayaran berhasil dibuat otomatis.
+                            Silakan lanjutkan pembayaran melalui menu Pembayaran.
+                        </span>
                     </div>
                 `,
                 confirmButtonColor: '#2563eb'

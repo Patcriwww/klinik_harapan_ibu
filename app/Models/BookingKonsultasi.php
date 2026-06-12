@@ -20,16 +20,26 @@ class BookingKonsultasi extends Model
 
     public function pasien()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(\App\Models\User::class, 'user_id');
     }
 
     public function tenagaMedis()
     {
-        return $this->belongsTo(TenagaMedis::class);
+        return $this->belongsTo(\App\Models\TenagaMedis::class, 'tenaga_medis_id');
     }
 
     public function jadwalPraktik()
     {
-        return $this->belongsTo(JadwalPraktik::class);
+        return $this->belongsTo(\App\Models\JadwalPraktik::class, 'jadwal_praktik_id');
+    }
+
+    public function pembayaran()
+    {
+        return $this->hasOne(\App\Models\Pembayaran::class, 'booking_konsultasi_id');
+    }
+
+    public function rekamMedis()
+    {
+        return $this->hasOne(\App\Models\RekamMedis::class, 'booking_konsultasi_id');
     }
 }

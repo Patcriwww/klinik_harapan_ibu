@@ -198,6 +198,79 @@
             grid-template-columns: 1fr;
         }
     }
+
+        .payment-box {
+        background: #eff6ff;
+        border: 1px solid #bfdbfe;
+        border-radius: 16px;
+        padding: 14px;
+        margin-bottom: 18px;
+    }
+
+    .payment-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        font-size: 13px;
+        margin-bottom: 8px;
+    }
+
+    .payment-row:last-child {
+        margin-bottom: 0;
+    }
+
+    .payment-label {
+        color: #64748b;
+        font-weight: 700;
+    }
+
+    .payment-value {
+        color: #1e293b;
+        font-weight: 900;
+        text-align: right;
+    }
+
+    .payment-badge {
+        display: inline-block;
+        padding: 6px 12px;
+        border-radius: 999px;
+        font-size: 11px;
+        font-weight: 900;
+    }
+
+    .pay-pending {
+        background: #fef3c7;
+        color: #d97706;
+    }
+
+    .pay-menunggu_verifikasi {
+        background: #dbeafe;
+        color: #2563eb;
+    }
+
+    .pay-dibayar {
+        background: #dcfce7;
+        color: #16a34a;
+    }
+
+    .pay-ditolak {
+        background: #fee2e2;
+        color: #dc2626;
+    }
+
+    .btn-upload-bukti {
+        margin-top: 12px;
+        width: 100%;
+        display: block;
+        text-align: center;
+        padding: 10px 14px;
+        background: #2563eb;
+        color: #ffffff;
+        border-radius: 12px;
+        font-size: 13px;
+        font-weight: 900;
+        text-decoration: none;
+    }
 </style>
 
 <div class="history-wrapper">
@@ -263,6 +336,55 @@
                             {{ $booking->keluhan }}
                         </div>
                     </div>
+
+                    @php
+                        $pembayaran = $booking->pembayaran;
+                        $payStatus = $pembayaran->status ?? 'pending';
+                        $payClass = 'pay-' . $payStatus;
+                    @endphp
+
+                    <div class="payment-box">
+                        <div class="payment-row">
+                            <span class="payment-label">Invoice</span>
+                            <span class="payment-value">
+                                {{ $pembayaran->invoice_no ?? '-' }}
+                            </span>
+                        </div>
+
+                        <div class="payment-row">
+                            <span class="payment-label">Nominal</span>
+                            <span class="payment-value">
+                                Rp {{ number_format($pembayaran->nominal ?? 0, 0, ',', '.') }}
+                            </span>
+                        </div>
+
+                        <div class="payment-row">
+                            <span class="payment-label">Metode</span>
+                            <span class="payment-value">
+                                {{ $pembayaran->metode ?? '-' }}
+                            </span>
+                        </div>
+
+                        <div class="payment-row">
+                            <span class="payment-label">Status Bayar</span>
+                            <span class="payment-badge {{ $payClass }}">
+                                {{ ucwords(str_replace('_', ' ', $payStatus)) }}
+                            </span>
+                        </div>
+
+                        @if($pembayaran && in_array($pembayaran->status, ['pending', 'ditolak']))
+                            <a href="{{ route('pasien.pembayaran.index') }}" class="btn-upload-bukti">
+                                Upload Bukti Pembayaran
+                            </a>
+                        @endif
+                    </div>
+                    @if($pembayaran && $pembayaran->status === 'dibayar')
+                        <a href="{{ route('pasien.tiket-digital.show', $booking->id) }}"
+                        class="btn-upload-bukti"
+                        style="background:#16a34a;">
+                            Lihat Tiket Digital
+                        </a>
+                    @endif
 
                     <div class="booking-code">
                         <div>
