@@ -1,0 +1,3 @@
+- Nama : Bona Firmanto
+- NIM  : 0112523009
+- Peran  : Bussines Analyst & Documentation
