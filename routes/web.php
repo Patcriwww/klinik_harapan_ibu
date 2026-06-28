@@ -20,6 +20,8 @@ use App\Http\Controllers\TenagaMedis\DashboardTenagaMedisController;
 use App\Http\Controllers\Pasien\RekamMedisController as PasienRekamMedisController;
 use App\Http\Controllers\TenagaMedis\RekamMedisController as TenagaMedisRekamMedisController;
 use App\Http\Controllers\Pimpinan\DashboardPimpinanController;
+use App\Http\Controllers\Backoffice\RolePermissionController;
+
 
 Auth::routes();
 
@@ -69,6 +71,18 @@ Route::post('/register-pasien', [PatientRegisterController::class, 'register'])
             
             Route::post('roles/{role}/permissions', [RoleController::class, 'syncPermissions'])
                 ->name('roles.sync-permissions');
+
+            Route::get('/role-permission', [RolePermissionController::class, 'index'])
+                ->name('role-permission.index');
+
+            Route::post('/role-permission/role', [RolePermissionController::class, 'storeRole'])
+                ->name('role-permission.store-role');
+
+            Route::post('/role-permission/permission', [RolePermissionController::class, 'storePermission'])
+                ->name('role-permission.store-permission');
+
+            Route::post('/role-permission/sync', [RolePermissionController::class, 'syncPermission'])
+                ->name('role-permission.sync');
 
             Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
 
@@ -145,7 +159,16 @@ Route::post('/register-pasien', [PatientRegisterController::class, 'register'])
             Route::post('/rekam-medis/{booking}', [DashboardTenagaMedisController::class, 'storeRekamMedis'])
                 ->name('rekam-medis.store');
             Route::get('/rekam-medis', [TenagaMedisRekamMedisController::class, 'index'])->name('rekam-medis.index');
-    });
+            Route::get('/rekam-medis/{rekamMedis}', [RekamMedisController::class, 'show'])
+                    ->name('rekam-medis.show');
+
+                Route::get('/rekam-medis/{rekamMedis}/edit', [RekamMedisController::class, 'edit'])
+                    ->name('rekam-medis.edit');
+
+                Route::put('/rekam-medis/{rekamMedis}', [RekamMedisController::class, 'update'])
+                    ->name('rekam-medis.update');
+    
+            });
 
     Route::middleware(['auth'])
     ->prefix('pimpinan')

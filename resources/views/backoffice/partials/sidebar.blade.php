@@ -64,8 +64,8 @@
             ],
             [
                 'title' => 'Role Permission',
-                'url' => route('admin.backoffice.roles.index'),
-                'active' => request()->is('admin/backoffice/roles*') || request()->is('admin/backoffice/permissions*'),
+                'url' => route('admin.backoffice.role-permission.index'),
+                'active' => request()->is('admin/backoffice/role-permission*'),
                 'icon' => 'ni ni-settings',
                 'color' => '#7c3aed',
             ],

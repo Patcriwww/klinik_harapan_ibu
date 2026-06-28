@@ -4,250 +4,572 @@
 @section('title', 'Role Permission')
 
 @section('content')
-<div class="w-full px-6 py-6 mx-auto">
+<style>
+    .rp-page {
+        padding: 26px;
+    }
 
-    {{-- CARD STATISTIK --}}
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-        <div class="bg-white rounded-2xl shadow-soft-xl p-6">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-sm font-semibold text-slate-400">Total Role</p>
-                    <h3 class="text-3xl font-bold text-slate-700 mt-2">{{ $totalRoles }}</h3>
-                </div>
-                <div class="w-12 h-12 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center">
-                    <i class="ni ni-badge text-lg"></i>
-                </div>
-            </div>
+    .rp-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 24px;
+        gap: 16px;
+    }
+
+    .rp-title {
+        font-size: 30px;
+        font-weight: 900;
+        color: #1e293b;
+        margin: 0;
+    }
+
+    .rp-subtitle {
+        color: #94a3b8;
+        margin-top: 8px;
+        font-size: 15px;
+    }
+
+    .rp-actions {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+
+    .btn-rp {
+        border: none;
+        border-radius: 14px;
+        padding: 12px 18px;
+        font-weight: 900;
+        cursor: pointer;
+        text-decoration: none;
+        color: white;
+    }
+
+    .btn-blue {
+        background: #0ea5e9;
+    }
+
+    .btn-green {
+        background: #22c55e;
+    }
+
+    .btn-purple {
+        background: #7c3aed;
+    }
+
+    .rp-stat-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 18px;
+        margin-bottom: 24px;
+    }
+
+    .rp-stat-card {
+        background: #ffffff;
+        border-radius: 22px;
+        padding: 22px;
+        box-shadow: 0 10px 24px rgba(15, 23, 42, .08);
+        border: 1px solid #f1f5f9;
+    }
+
+    .rp-stat-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .rp-stat-label {
+        font-size: 13px;
+        color: #64748b;
+        font-weight: 900;
+        text-transform: uppercase;
+    }
+
+    .rp-stat-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 18px;
+    }
+
+    .rp-stat-value {
+        margin-top: 16px;
+        color: #1e293b;
+        font-size: 32px;
+        font-weight: 900;
+    }
+
+    .rp-card {
+        background: #ffffff;
+        border-radius: 24px;
+        padding: 26px;
+        box-shadow: 0 10px 24px rgba(15, 23, 42, .08);
+        border: 1px solid #f1f5f9;
+    }
+
+    .rp-card-title {
+        font-size: 22px;
+        font-weight: 900;
+        color: #1e293b;
+        margin-bottom: 18px;
+    }
+
+    .rp-role-select-box {
+        background: #f8fafc;
+        border-radius: 20px;
+        padding: 18px;
+        margin-bottom: 24px;
+    }
+
+    .rp-label {
+        display: block;
+        color: #475569;
+        font-weight: 900;
+        font-size: 14px;
+        margin-bottom: 8px;
+    }
+
+    .rp-select {
+        width: 100%;
+        height: 52px;
+        border: 1px solid #e2e8f0;
+        border-radius: 16px;
+        padding: 0 16px;
+        color: #475569;
+        outline: none;
+        font-weight: 700;
+    }
+
+    .selected-role-info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #eff6ff;
+        border: 1px solid #bfdbfe;
+        border-radius: 18px;
+        padding: 16px 18px;
+        margin-bottom: 20px;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+
+    .selected-role-info strong {
+        color: #2563eb;
+        font-size: 16px;
+    }
+
+    .permission-toolbar {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .btn-small {
+        border: none;
+        border-radius: 12px;
+        padding: 9px 13px;
+        font-size: 12px;
+        font-weight: 900;
+        cursor: pointer;
+    }
+
+    .btn-select-all {
+        background: #dcfce7;
+        color: #16a34a;
+    }
+
+    .btn-unselect-all {
+        background: #fee2e2;
+        color: #dc2626;
+    }
+
+    .permission-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 14px;
+        margin-bottom: 24px;
+    }
+
+    .permission-item {
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 16px;
+        padding: 13px 14px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: #334155;
+        font-size: 14px;
+        font-weight: 800;
+        cursor: pointer;
+        transition: .2s;
+    }
+
+    .permission-item:hover {
+        background: #eff6ff;
+        border-color: #bfdbfe;
+        color: #2563eb;
+    }
+
+    .permission-item input {
+        width: 18px;
+        height: 18px;
+        accent-color: #2563eb;
+    }
+
+    .rp-save-box {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .empty-role {
+        text-align: center;
+        padding: 38px;
+        border: 1px dashed #cbd5e1;
+        border-radius: 18px;
+        color: #94a3b8;
+        font-weight: 800;
+        background: #f8fafc;
+    }
+
+    .alert-success {
+        background: #dcfce7;
+        color: #15803d;
+        padding: 14px 16px;
+        border-radius: 16px;
+        margin-bottom: 18px;
+        font-weight: 800;
+    }
+
+    .alert-error {
+        background: #fee2e2;
+        color: #dc2626;
+        padding: 14px 16px;
+        border-radius: 16px;
+        margin-bottom: 18px;
+        font-weight: 800;
+    }
+
+    .modal-overlay {
+        display: none;
+        position: fixed;
+        z-index: 9999;
+        inset: 0;
+        background: rgba(15, 23, 42, .55);
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
+
+    .modal-overlay.active {
+        display: flex;
+    }
+
+    .modal-box {
+        background: #ffffff;
+        border-radius: 24px;
+        padding: 26px;
+        width: 100%;
+        max-width: 520px;
+        box-shadow: 0 25px 60px rgba(15, 23, 42, .25);
+    }
+
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 20px;
+    }
+
+    .modal-title {
+        font-size: 22px;
+        color: #1e293b;
+        font-weight: 900;
+        margin: 0;
+    }
+
+    .modal-close {
+        border: none;
+        background: #f1f5f9;
+        width: 38px;
+        height: 38px;
+        border-radius: 12px;
+        cursor: pointer;
+        font-size: 18px;
+        color: #64748b;
+    }
+
+    .modal-input {
+        width: 100%;
+        height: 52px;
+        border: 1px solid #e2e8f0;
+        border-radius: 16px;
+        padding: 0 16px;
+        outline: none;
+        font-weight: 700;
+        color: #475569;
+    }
+
+    .modal-input:focus {
+        border-color: #2563eb;
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, .12);
+    }
+
+    .modal-footer {
+        margin-top: 20px;
+        display: flex;
+        justify-content: flex-end;
+        gap: 12px;
+    }
+
+    .btn-cancel {
+        background: #e2e8f0;
+        color: #475569;
+    }
+
+    @media(max-width: 1200px) {
+        .permission-grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+    }
+
+    @media(max-width: 900px) {
+        .rp-stat-grid,
+        .permission-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .rp-header {
+            flex-direction: column;
+        }
+    }
+
+    @media(max-width: 600px) {
+        .rp-stat-grid,
+        .permission-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<div class="rp-page">
+
+    <div class="rp-header">
+        <div>
+            <h1 class="rp-title">Role Permission</h1>
+            <p class="rp-subtitle">
+                Kelola role, permission, dan hak akses pengguna sistem Klinik Harapan Ibu.
+            </p>
         </div>
 
-        <div class="bg-white rounded-2xl shadow-soft-xl p-6">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-sm font-semibold text-slate-400">Total Permission</p>
-                    <h3 class="text-3xl font-bold text-slate-700 mt-2">{{ $totalPermissions }}</h3>
-                </div>
-                <div class="w-12 h-12 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center">
-                    <i class="ni ni-lock-circle-open text-lg"></i>
-                </div>
-            </div>
-        </div>
+        <div class="rp-actions">
+            <button type="button" class="btn-rp btn-blue" onclick="openModal('roleModal')">
+                + Tambah Role
+            </button>
 
-        <div class="bg-white rounded-2xl shadow-soft-xl p-6">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-sm font-semibold text-slate-400">Role Permission</p>
-                    <h3 class="text-3xl font-bold text-slate-700 mt-2">{{ $totalRolePermissions }}</h3>
-                </div>
-                <div class="w-12 h-12 rounded-xl bg-green-100 text-green-600 flex items-center justify-center">
-                    <i class="ni ni-check-bold text-lg"></i>
-                </div>
-            </div>
+            <button type="button" class="btn-rp btn-green" onclick="openModal('permissionModal')">
+                + Tambah Permission
+            </button>
         </div>
     </div>
-
-    {{-- FORM TAMBAH ROLE & PERMISSION --}}
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-        <div class="bg-white rounded-2xl shadow-soft-xl p-6">
-            <h6 class="text-lg font-bold text-slate-700 mb-4">Tambah Role</h6>
-
-            <form action="{{ route('admin.backoffice.roles.store') }}" method="POST" class="flex gap-3">
-                @csrf
-                <input type="text" name="name"
-                       class="w-full px-4 py-3 border border-slate-200 rounded-xl text-sm"
-                       placeholder="Contoh: admin" required>
-
-                <button class="px-5 py-3 bg-blue-500 text-white rounded-xl font-semibold">
-                    Simpan
-                </button>
-            </form>
-        </div>
-
-        <div class="bg-white rounded-2xl shadow-soft-xl p-6">
-            <h6 class="text-lg font-bold text-slate-700 mb-4">Tambah Permission</h6>
-
-            <form action="{{ route('admin.backoffice.permissions.store') }}" method="POST" class="flex gap-3">
-                @csrf
-                <input type="text" name="name"
-                       class="w-full px-4 py-3 border border-slate-200 rounded-xl text-sm"
-                       placeholder="Contoh: users.view" required>
-
-                <button class="px-5 py-3 bg-purple-500 text-white rounded-xl font-semibold">
-                    Simpan
-                </button>
-            </form>
-        </div>
-    </div>
-
-    {{-- ROLE PERMISSION --}}
-    <div class="bg-white rounded-2xl shadow-soft-xl border border-slate-100 overflow-hidden">
-        <div class="px-6 py-5 border-b border-slate-100">
-            <h6 class="text-xl font-bold text-slate-700">Pengaturan Role Permission</h6>
-        </div>
-
-        <div class="p-6">
-            <div class="mb-8">
-                <label class="block mb-2 text-sm font-bold text-slate-700">Pilih Role</label>
-                <select id="roleSelect"
-                        class="w-full md:w-1/3 px-4 py-3 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-400">
-                    <option value="">-- Pilih Role --</option>
-                    @foreach($roles as $role)
-                        <option value="{{ $role->id }}">
-                            {{ $role->name }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
-
-            @foreach($roles as $role)
-                @php
-                    $groupedPermissions = $permissions->groupBy(function ($permission) {
-                        $name = $permission->name;
-
-                        if (str_contains($name, '.')) {
-                            return strtoupper(explode('.', $name)[0]);
-                        }
-
-                        if (str_contains($name, '-')) {
-                            return strtoupper(explode('-', $name)[0]);
-                        }
-
-                        return 'LAINNYA';
-                    });
-                @endphp
-
-                <form action="{{ route('admin.backoffice.roles.sync-permissions', $role->id) }}"
-                      method="POST"
-                      class="role-permission-form hidden"
-                      data-role-id="{{ $role->id }}">
-                    @csrf
-
-                    <div class="flex flex-wrap justify-between items-center gap-4 mb-6">
-                        <div>
-                            <h6 class="text-lg font-bold text-slate-700">
-                                Permission untuk role:
-                                <span class="px-3 py-1 rounded-lg bg-green-700 text-white text-sm">
-                                    {{ $role->name }}
-                                </span>
-                            </h6>
-                            <p class="text-sm text-slate-400 mt-1">
-                                {{ $role->permissions->count() }} permission aktif
-                            </p>
-                        </div>
-
-                        <div class="flex gap-2">
-                            <button type="button"
-                                    class="btn-check-all px-4 py-2 border border-green-700 text-green-700 rounded-xl text-sm font-semibold hover:bg-green-50">
-                                Pilih Semua
-                            </button>
-
-                            <button type="button"
-                                    class="btn-uncheck-all px-4 py-2 border border-slate-500 text-slate-600 rounded-xl text-sm font-semibold hover:bg-slate-50">
-                                Hapus Semua
-                            </button>
-
-                            <button type="submit"
-                                    class="px-5 py-2 bg-blue-500 text-white rounded-xl text-sm font-semibold hover:bg-blue-600">
-                                Simpan
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="space-y-5">
-                        @foreach($groupedPermissions as $groupName => $items)
-                            <div class="border border-slate-200 rounded-2xl overflow-hidden">
-                                <div class="flex items-center justify-between px-5 py-3 bg-slate-50 border-b border-slate-200">
-                                    <h6 class="text-sm font-bold text-slate-700 uppercase">
-                                        {{ $groupName }}
-                                    </h6>
-
-                                    <i class="ni ni-bold-down text-sm text-slate-500"></i>
-                                </div>
-
-                                <div class="p-5">
-                                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-4">
-                                        @foreach($items as $permission)
-                                            <label class="flex items-center gap-3 cursor-pointer">
-                                                <input type="checkbox"
-                                                       name="permissions[]"
-                                                       value="{{ $permission->name }}"
-                                                       class="permission-checkbox w-5 h-5 rounded border-slate-300 text-green-600 focus:ring-green-500"
-                                                       {{ $role->hasPermissionTo($permission->name) ? 'checked' : '' }}>
-
-                                                <span class="text-sm font-semibold text-slate-700 break-all">
-                                                    {{ $permission->name }}
-                                                </span>
-                                            </label>
-                                        @endforeach
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                </form>
-            @endforeach
-
-            <div id="emptyRoleMessage"
-                 class="border border-dashed border-slate-300 rounded-2xl p-10 text-center text-slate-400">
-                Silakan pilih role terlebih dahulu untuk menampilkan daftar permission.
-            </div>
-        </div>
-    </div>
-
-</div>
-@endsection
-
-@push('scripts')
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-<script>
-    const roleSelect = document.getElementById('roleSelect');
-    const forms = document.querySelectorAll('.role-permission-form');
-    const emptyMessage = document.getElementById('emptyRoleMessage');
-
-    roleSelect.addEventListener('change', function () {
-        const roleId = this.value;
-        let selected = false;
-
-        forms.forEach(form => {
-            if (form.dataset.roleId === roleId) {
-                form.classList.remove('hidden');
-                selected = true;
-            } else {
-                form.classList.add('hidden');
-            }
-        });
-
-        emptyMessage.classList.toggle('hidden', selected);
-    });
-
-    document.querySelectorAll('.btn-check-all').forEach(button => {
-        button.addEventListener('click', function () {
-            this.closest('form').querySelectorAll('.permission-checkbox').forEach(cb => cb.checked = true);
-        });
-    });
-
-    document.querySelectorAll('.btn-uncheck-all').forEach(button => {
-        button.addEventListener('click', function () {
-            this.closest('form').querySelectorAll('.permission-checkbox').forEach(cb => cb.checked = false);
-        });
-    });
 
     @if(session('success'))
-        Swal.fire({
-            icon: 'success',
-            title: 'Berhasil!',
-            text: '{{ session('success') }}',
-            timer: 1800,
-            showConfirmButton: false
-        });
+        <div class="alert-success">
+            {{ session('success') }}
+        </div>
     @endif
 
     @if($errors->any())
-        Swal.fire({
-            icon: 'error',
-            title: 'Gagal!',
-            text: '{{ $errors->first() }}'
-        });
+        <div class="alert-error">
+            {{ $errors->first() }}
+        </div>
     @endif
+
+    <div class="rp-stat-grid">
+        <div class="rp-stat-card">
+            <div class="rp-stat-top">
+                <div class="rp-stat-label">Total Role</div>
+                <div class="rp-stat-icon" style="background:#0ea5e9;">👤</div>
+            </div>
+            <div class="rp-stat-value">{{ $roles->count() }}</div>
+        </div>
+
+        <div class="rp-stat-card">
+            <div class="rp-stat-top">
+                <div class="rp-stat-label">Total Permission</div>
+                <div class="rp-stat-icon" style="background:#22c55e;">🔐</div>
+            </div>
+            <div class="rp-stat-value">{{ $permissions->count() }}</div>
+        </div>
+
+        <div class="rp-stat-card">
+            <div class="rp-stat-top">
+                <div class="rp-stat-label">Role Dipilih</div>
+                <div class="rp-stat-icon" style="background:#7c3aed;">✅</div>
+            </div>
+            <div class="rp-stat-value">
+                {{ $selectedRole ? $selectedRole->permissions->count() : 0 }}
+            </div>
+        </div>
+    </div>
+
+    <div class="rp-card">
+        <div class="rp-card-title">Pengaturan Role Permission</div>
+
+        <div class="rp-role-select-box">
+            <form method="GET" action="{{ route('admin.backoffice.role-permission.index') }}">
+                <label class="rp-label">Pilih Role</label>
+                <select name="role_id" class="rp-select" onchange="this.form.submit()">
+                    <option value="">-- Pilih Role --</option>
+                    @foreach($roles as $role)
+                        <option value="{{ $role->id }}" {{ $selectedRole && $selectedRole->id == $role->id ? 'selected' : '' }}>
+                            {{ ucfirst($role->name) }}
+                        </option>
+                    @endforeach
+                </select>
+            </form>
+        </div>
+
+        @if($selectedRole)
+            <form method="POST" action="{{ route('admin.backoffice.role-permission.sync') }}">
+                @csrf
+                <input type="hidden" name="role_id" value="{{ $selectedRole->id }}">
+
+                <div class="selected-role-info">
+                    <div>
+                        Permission untuk role:
+                        <strong>{{ ucfirst($selectedRole->name) }}</strong>
+                    </div>
+
+                    <div class="permission-toolbar">
+                        <button type="button" class="btn-small btn-select-all" onclick="checkAllPermissions()">
+                            Pilih Semua
+                        </button>
+
+                        <button type="button" class="btn-small btn-unselect-all" onclick="uncheckAllPermissions()">
+                            Hapus Semua
+                        </button>
+                    </div>
+                </div>
+
+                <div class="permission-grid">
+                    @foreach($permissions as $permission)
+                        <label class="permission-item">
+                            <input type="checkbox"
+                                   name="permissions[]"
+                                   value="{{ $permission->name }}"
+                                   class="permission-checkbox"
+                                   {{ in_array($permission->name, $rolePermissions) ? 'checked' : '' }}>
+
+                            <span>{{ $permission->name }}</span>
+                        </label>
+                    @endforeach
+                </div>
+
+                <div class="rp-save-box">
+                    <button type="submit" class="btn-rp btn-purple">
+                        Simpan Permission
+                    </button>
+                </div>
+            </form>
+        @else
+            <div class="empty-role">
+                Silakan pilih role terlebih dahulu untuk menampilkan daftar permission.
+            </div>
+        @endif
+    </div>
+</div>
+
+<div class="modal-overlay" id="roleModal">
+    <div class="modal-box">
+        <form method="POST" action="{{ route('admin.backoffice.role-permission.store-role') }}">
+            @csrf
+
+            <div class="modal-header">
+                <h3 class="modal-title">Tambah Role</h3>
+                <button type="button" class="modal-close" onclick="closeModal('roleModal')">×</button>
+            </div>
+
+            <label class="rp-label">Nama Role</label>
+            <input type="text"
+                   name="name"
+                   class="modal-input"
+                   placeholder="Contoh: admin / pasien / tenaga_medis"
+                   required>
+
+            <div class="modal-footer">
+                <button type="button" class="btn-rp btn-cancel" onclick="closeModal('roleModal')">
+                    Batal
+                </button>
+                <button type="submit" class="btn-rp btn-blue">
+                    Simpan Role
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="modal-overlay" id="permissionModal">
+    <div class="modal-box">
+        <form method="POST" action="{{ route('admin.backoffice.role-permission.store-permission') }}">
+            @csrf
+
+            <div class="modal-header">
+                <h3 class="modal-title">Tambah Permission</h3>
+                <button type="button" class="modal-close" onclick="closeModal('permissionModal')">×</button>
+            </div>
+
+            <label class="rp-label">Nama Permission</label>
+            <input type="text"
+                   name="name"
+                   class="modal-input"
+                   placeholder="Contoh: users.view / booking.create / pembayaran.approve"
+                   required>
+
+            <div class="modal-footer">
+                <button type="button" class="btn-rp btn-cancel" onclick="closeModal('permissionModal')">
+                    Batal
+                </button>
+                <button type="submit" class="btn-rp btn-green">
+                    Simpan Permission
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function openModal(id) {
+        document.getElementById(id).classList.add('active');
+    }
+
+    function closeModal(id) {
+        document.getElementById(id).classList.remove('active');
+    }
+
+    function checkAllPermissions() {
+        document.querySelectorAll('.permission-checkbox').forEach(function (checkbox) {
+            checkbox.checked = true;
+        });
+    }
+
+    function uncheckAllPermissions() {
+        document.querySelectorAll('.permission-checkbox').forEach(function (checkbox) {
+            checkbox.checked = false;
+        });
+    }
+
+    document.querySelectorAll('.modal-overlay').forEach(function (modal) {
+        modal.addEventListener('click', function (e) {
+            if (e.target === modal) {
+                modal.classList.remove('active');
+            }
+        });
+    });
 </script>
-@endpush
+@endsection
