@@ -41,14 +41,30 @@
 
                             <td class="px-4 py-4">
                                 <div class="flex items-center gap-4">
-                                    @if($item->foto)
-                                        <div class="w-14 h-14 rounded-xl overflow-hidden border border-slate-200 shadow-sm flex-shrink-0">
-                                            <img src="{{ asset('storage/' . $item->foto) }}"
-                                            style="width:56px;height:56px;object-fit:cover;border-radius:12px;"
-                                            alt="{{ $item->nama }}">
-                                        </div>
-                                    @else
-                                        <div class="w-14 h-14 rounded-xl bg-blue-100 flex items-center justify-center font-bold text-blue-600 flex-shrink-0">
+                                   @if($item->foto)
+                                    <div style="
+                                        width:56px;
+                                        height:56px;
+                                        overflow:hidden;
+                                        border-radius:12px;
+                                        border:1px solid #e2e8f0;
+                                        flex-shrink:0;
+                                    ">
+                                        <img
+                                            src="{{ str_starts_with($item->foto, 'storage/')
+                                                    ? asset($item->foto)
+                                                    : asset('storage/' . $item->foto) }}"
+                                            alt="{{ $item->nama }}"
+                                            style="
+                                                width:100%;
+                                                height:100%;
+                                                object-fit:cover;
+                                                display:block;
+                                            ">
+                                    </div>
+                                @else
+                                        <div class="doctor-photo"
+                                            style="background:#dbeafe;color:#2563eb;display:flex;align-items:center;justify-content:center;font-weight:900;">
                                             {{ strtoupper(substr($item->nama, 0, 1)) }}
                                         </div>
                                     @endif

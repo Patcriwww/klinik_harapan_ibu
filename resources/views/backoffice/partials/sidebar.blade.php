@@ -15,7 +15,7 @@
             ],
             [
                 'title' => 'Data Pasien',
-                'url' => '#',
+                'url' => route('admin.backoffice.pasien.index'),
                 'active' => request()->is('admin/backoffice/pasien*'),
                 'icon' => 'ni ni-single-02',
                 'color' => '#10b981',
@@ -71,10 +71,17 @@
             ],
             [
                 'title' => 'Pengaturan Sistem',
-                'url' => '#',
+                'url' => route('admin.backoffice.pengaturan-sistem.index'),
                 'active' => request()->is('admin/backoffice/settings*'),
                 'icon' => 'ni ni-settings-gear-65',
                 'color' => '#64748b',
+            ],
+            [
+                'title' => 'Activity Log',
+                'url' => route('admin.backoffice.activity-log.index'),
+                'active' => request()->routeIs('admin.backoffice.activity-log.*'),
+                'icon' => 'ni ni-bullet-list-67',
+                'color' => '#7c3aed',
             ],
         ];
     }
@@ -116,6 +123,14 @@
                 'icon' => 'ni ni-credit-card',
                 'color' => '#22c55e',
             ],
+           [
+                'title' => 'Catatan Pertumbuhan',
+                'url' => route('pasien.catatan-pertumbuhan.index'),
+                'active' => request()->routeIs('pasien.catatan-pertumbuhan.*'),
+                'icon' => 'ni ni-chart-bar-32',
+                'color' => '#10b981',
+            ],
+            
         ];
     }
 
@@ -156,7 +171,7 @@
             ],
             [
                 'title' => 'Laporan Klinik',
-                'url' => '#',
+                'url' => route('pimpinan.laporan-klinik.index'),
                 'active' => request()->is('pimpinan/laporan*'),
                 'icon' => 'ni ni-chart-bar-32',
                 'color' => '#6366f1',

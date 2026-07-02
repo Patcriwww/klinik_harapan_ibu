@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Pasien;
 
 use App\Http\Controllers\Controller;
 use App\Models\RekamMedis;
+use App\Helpers\ActivityLogger;
 
 class RekamMedisController extends Controller
 {

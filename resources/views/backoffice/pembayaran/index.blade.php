@@ -239,6 +239,34 @@
         color: #94a3b8;
         padding: 34px;
     }
+    .btn-export{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+
+    padding:14px 28px;
+    border-radius:18px;
+
+    background:#16a34a;
+    color:#fff !important;
+
+    font-weight:700;
+    font-size:16px;
+
+    text-decoration:none;
+    transition:.25s;
+    box-shadow:0 8px 20px rgba(22,163,74,.25);
+    }
+
+    .btn-export:hover{
+        background:#15803d;
+        color:#fff !important;
+        transform:translateY(-2px);
+    }
+
+    .btn-export i{
+        font-size:18px;
+    }
 
     @media(max-width: 1100px) {
         .stat-grid {
@@ -318,6 +346,11 @@
 
             <a href="{{ route('admin.backoffice.pembayaran.index') }}" class="btn-reset">
                 Reset
+            </a>
+           <a href="{{ route('admin.backoffice.export.pembayaran') }}"
+            class="btn-export">
+                <i class="fas fa-file-excel"></i>
+                Export Excel
             </a>
         </form>
 

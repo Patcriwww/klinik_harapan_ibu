@@ -18,6 +18,11 @@ class RekamMedis extends Model
         'resep_obat',
         'catatan_dokter',
         'tanggal_pemeriksaan',
+        'berat_badan',
+        'tinggi_badan',
+        'lingkar_kepala',
+        'suhu',
+        'tekanan_darah',
     ];
 
     public function booking()

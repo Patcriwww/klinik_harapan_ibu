@@ -345,11 +345,11 @@
                 </div>
             @endif
 
-            @if($pembayaran->bukti_bayar)
-                <img src="{{ asset('storage/' . $pembayaran->bukti_bayar) }}"
-                     class="proof-img"
-                     alt="Bukti Pembayaran">
-            @endif
+            <img src="{{ str_starts_with($pembayaran->bukti_bayar, 'storage/')
+                ? asset($pembayaran->bukti_bayar)
+                : asset('storage/' . $pembayaran->bukti_bayar) }}"
+            class="proof-img"
+            alt="Bukti Pembayaran">
 
             <a href="{{ route('pasien.pembayaran.index') }}" class="btn-back">
                 Kembali

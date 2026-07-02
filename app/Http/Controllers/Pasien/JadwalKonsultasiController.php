@@ -10,6 +10,7 @@ use App\Models\Pembayaran;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
+use App\Helpers\ActivityLogger;
 
 class JadwalKonsultasiController extends Controller
 {
@@ -56,12 +57,16 @@ class JadwalKonsultasiController extends Controller
             })
             ->latest()
             ->get();
+        $favoritDokterIds = \App\Models\DokterFavorit::where('user_id', auth()->id())
+            ->pluck('tenaga_medis_id')
+            ->toArray();
 
         return view('pasien.jadwal-konsultasi.index', compact(
             'dokters',
             'spesialisList',
             'selectedDate',
-            'hariDipilih'
+            'hariDipilih',
+            'favoritDokterIds'
         ));
     }
 
@@ -134,6 +139,11 @@ class JadwalKonsultasiController extends Controller
             'metode' => 'Transfer Bank',
             'status' => 'pending',
         ]);
+        ActivityLogger::log(
+            'Booking Konsultasi',
+            'Booking',
+            'Melakukan booking konsultasi dengan dokter.'
+        );
 
         return response()->json([
             'success' => true,
