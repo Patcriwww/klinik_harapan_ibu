@@ -55,13 +55,44 @@
                     {{ $rekamMedis->booking->kode_booking ?? '-' }}
                 </div>
             </div>
+            <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin:24px 0;">
+                <div style="background:#f8fafc;border-radius:18px;padding:16px;">
+                    <div style="font-size:12px;color:#64748b;font-weight:900;">Berat Badan</div>
+                    <div style="font-weight:900;color:#1e293b;margin-top:6px;">
+                        {{ $rekamMedis->berat_badan ?? '-' }} kg
+                    </div>
+                </div>
 
-            <div style="background:#f8fafc;border-radius:18px;padding:16px;">
-                <div style="font-size:12px;color:#64748b;font-weight:900;">Suhu / Tekanan Darah</div>
-                <div style="font-weight:900;color:#1e293b;margin-top:6px;">
-                    {{ $rekamMedis->suhu ?? '-' }} °C / {{ $rekamMedis->tekanan_darah ?? '-' }}
+                <div style="background:#f8fafc;border-radius:18px;padding:16px;">
+                    <div style="font-size:12px;color:#64748b;font-weight:900;">Tinggi Badan</div>
+                    <div style="font-weight:900;color:#1e293b;margin-top:6px;">
+                        {{ $rekamMedis->tinggi_badan ?? '-' }} cm
+                    </div>
+                </div>
+
+                <div style="background:#f8fafc;border-radius:18px;padding:16px;">
+                    <div style="font-size:12px;color:#64748b;font-weight:900;">Lingkar Kepala</div>
+                    <div style="font-weight:900;color:#1e293b;margin-top:6px;">
+                        {{ $rekamMedis->lingkar_kepala ?? '-' }} cm
+                    </div>
+                </div>
+
+                <div style="background:#f8fafc;border-radius:18px;padding:16px;">
+                    <div style="font-size:12px;color:#64748b;font-weight:900;">Suhu Tubuh</div>
+                    <div style="font-weight:900;color:#1e293b;margin-top:6px;">
+                        {{ $rekamMedis->suhu ?? '-' }} °C
+                    </div>
+                </div>
+
+                <div style="background:#f8fafc;border-radius:18px;padding:16px;">
+                    <div style="font-size:12px;color:#64748b;font-weight:900;">Tekanan Darah</div>
+                    <div style="font-weight:900;color:#1e293b;margin-top:6px;">
+                        {{ $rekamMedis->tekanan_darah ?? '-' }}
+                    </div>
                 </div>
             </div>
+
+          
         </div>
 
         @foreach([
@@ -90,6 +121,10 @@
             <a href="{{ route('tenaga-medis.rekam-medis.edit', $rekamMedis->id) }}"
                style="background:#f97316;color:white;padding:12px 18px;border-radius:14px;font-weight:900;text-decoration:none;">
                 Edit
+            </a>
+            <a href="{{ route('tenaga-medis.rekam-medis.pdf', $rekamMedis->id) }}"
+            style="background:#16a34a;color:white;padding:12px 18px;border-radius:14px;font-weight:900;text-decoration:none;">
+                Download PDF
             </a>
         </div>
     </div>

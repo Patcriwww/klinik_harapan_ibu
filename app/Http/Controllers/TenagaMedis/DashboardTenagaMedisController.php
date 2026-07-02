@@ -7,6 +7,7 @@ use App\Models\BookingKonsultasi;
 use App\Models\TenagaMedis;
 use App\Models\RekamMedis;
 use Illuminate\Http\Request;
+use App\Helpers\ActivityLogger;
 
 class DashboardTenagaMedisController extends Controller
 {
@@ -75,6 +76,11 @@ class DashboardTenagaMedisController extends Controller
             'tindakan' => 'nullable|string|max:2000',
             'resep_obat' => 'nullable|string|max:2000',
             'catatan_dokter' => 'nullable|string|max:2000',
+            'berat_badan' => 'nullable|numeric',
+            'tinggi_badan' => 'nullable|numeric',
+            'lingkar_kepala' => 'nullable|numeric',
+            'suhu' => 'nullable|numeric',
+            'tekanan_darah' => 'nullable|string|max:50',
         ]);
 
         RekamMedis::create([
@@ -86,12 +92,22 @@ class DashboardTenagaMedisController extends Controller
             'tindakan' => $request->tindakan,
             'resep_obat' => $request->resep_obat,
             'catatan_dokter' => $request->catatan_dokter,
+            'berat_badan' => $request->berat_badan,
+            'tinggi_badan' => $request->tinggi_badan,
+            'lingkar_kepala' => $request->lingkar_kepala,
+            'suhu' => $request->suhu,
+            'tekanan_darah' => $request->tekanan_darah,
             'tanggal_pemeriksaan' => now()->format('Y-m-d'),
         ]);
 
         $booking->update([
             'status' => 'selesai',
         ]);
+        ActivityLogger::log(
+            'Tambah Rekam Medis',
+            'Rekam Medis',
+            'Menambahkan rekam medis pasien ' . $booking->pasien->name
+        );
 
         return redirect()
             ->route('tenaga-medis.dashboard', ['tanggal' => $booking->tanggal_konsultasi])

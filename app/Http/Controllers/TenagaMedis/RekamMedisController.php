@@ -7,6 +7,8 @@ use App\Models\RekamMedis;
 use App\Models\TenagaMedis;
 use Illuminate\Http\Request;
 use App\Models\BookingKonsultasi;
+use Barryvdh\DomPDF\Facade\Pdf;
+use App\Helpers\ActivityLogger;
 
 class RekamMedisController extends Controller
 {
@@ -114,9 +116,24 @@ class RekamMedisController extends Controller
             'suhu' => $request->suhu,
             'tekanan_darah' => $request->tekanan_darah,
         ]);
+        ActivityLogger::log(
+            'Update Rekam Medis',
+            'Rekam Medis',
+            'Mengubah rekam medis pasien ' . $rekamMedis->pasien->name
+        );
 
         return redirect()
             ->route('tenaga-medis.rekam-medis.show', $rekamMedis->id)
             ->with('success', 'Rekam medis berhasil diperbarui.');
+    }
+
+    public function downloadPdf(RekamMedis $rekamMedis)
+    {
+        $rekamMedis->load(['pasien', 'tenagaMedis', 'booking']);
+
+        $pdf = Pdf::loadView('tenaga-medis.rekam-medis.pdf', compact('rekamMedis'))
+            ->setPaper('a4', 'portrait');
+
+        return $pdf->download('rekam-medis-' . $rekamMedis->id . '.pdf');
     }
 }

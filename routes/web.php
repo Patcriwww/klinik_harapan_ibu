@@ -21,7 +21,13 @@ use App\Http\Controllers\Pasien\RekamMedisController as PasienRekamMedisControll
 use App\Http\Controllers\TenagaMedis\RekamMedisController as TenagaMedisRekamMedisController;
 use App\Http\Controllers\Pimpinan\DashboardPimpinanController;
 use App\Http\Controllers\Backoffice\RolePermissionController;
-
+use App\Http\Controllers\Pasien\CatatanPertumbuhanController;
+use App\Http\Controllers\Backoffice\PengaturanSistemController;
+use App\Http\Controllers\Backoffice\ActivityLogController;
+use App\Http\Controllers\Pasien\DokterFavoritController;
+use App\Http\Controllers\Backoffice\ExportController;
+use App\Http\Controllers\Backoffice\PasienController;
+use App\Http\Controllers\Pimpinan\LaporanKlinikController;
 
 Auth::routes();
 
@@ -86,6 +92,7 @@ Route::post('/register-pasien', [PatientRegisterController::class, 'register'])
 
             Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
 
+            Route::resource('/pasien', PasienController::class);
 
             Route::resource('layanan', LayananController::class);
             Route::resource('tenaga-medis', TenagaMedisController::class);
@@ -104,6 +111,23 @@ Route::post('/register-pasien', [PatientRegisterController::class, 'register'])
 
             Route::post('pembayaran/{pembayaran}/reject', [BackofficePembayaranController::class, 'reject'])
                 ->name('pembayaran.reject');
+
+            Route::get('/pengaturan-sistem', [PengaturanSistemController::class, 'index'])
+                ->name('pengaturan-sistem.index');
+
+            Route::put('/pengaturan-sistem', [PengaturanSistemController::class, 'update'])
+                ->name('pengaturan-sistem.update');
+
+            Route::get('/activity-log', [ActivityLogController::class, 'index'])
+               ->name('activity-log.index');
+
+
+            Route::prefix('export')->name('export.')->group(function () {
+            Route::get('/pasien', [ExportController::class, 'pasien'])->name('pasien');
+            Route::get('/booking', [ExportController::class, 'booking'])->name('booking');
+            Route::get('/pembayaran', [ExportController::class, 'pembayaran'])->name('pembayaran');
+            Route::get('/rekam-medis', [ExportController::class, 'rekamMedis'])->name('rekam-medis');
+});
 
     });
 
@@ -141,6 +165,14 @@ Route::post('/register-pasien', [PatientRegisterController::class, 'register'])
 
             Route::get('/rekam-medis', [PasienRekamMedisController::class, 'index'])->name('rekam-medis.index');
 
+            Route::get('/catatan-pertumbuhan', [CatatanPertumbuhanController::class, 'index']) ->name('catatan-pertumbuhan.index');
+
+            Route::get('/dokter-favorit', [DokterFavoritController::class, 'index'])
+                ->name('dokter-favorit.index');
+
+            Route::post('/dokter-favorit/{tenagaMedis}/toggle', [DokterFavoritController::class, 'toggle'])
+                ->name('dokter-favorit.toggle');
+
     });
 
     Route::middleware(['auth'])
@@ -159,16 +191,18 @@ Route::post('/register-pasien', [PatientRegisterController::class, 'register'])
             Route::post('/rekam-medis/{booking}', [DashboardTenagaMedisController::class, 'storeRekamMedis'])
                 ->name('rekam-medis.store');
             Route::get('/rekam-medis', [TenagaMedisRekamMedisController::class, 'index'])->name('rekam-medis.index');
-            Route::get('/rekam-medis/{rekamMedis}', [RekamMedisController::class, 'show'])
+            Route::get('/rekam-medis/{rekamMedis}', [TenagaMedisRekamMedisController::class, 'show'])
                     ->name('rekam-medis.show');
 
-                Route::get('/rekam-medis/{rekamMedis}/edit', [RekamMedisController::class, 'edit'])
-                    ->name('rekam-medis.edit');
+            Route::get('/rekam-medis/{rekamMedis}/edit', [TenagaMedisRekamMedisController::class, 'edit'])
+                ->name('rekam-medis.edit');
 
-                Route::put('/rekam-medis/{rekamMedis}', [RekamMedisController::class, 'update'])
-                    ->name('rekam-medis.update');
+            Route::put('/rekam-medis/{rekamMedis}', [TenagaMedisRekamMedisController::class, 'update'])
+                ->name('rekam-medis.update');
+            Route::get('/rekam-medis/{rekamMedis}/pdf', [TenagaMedisRekamMedisController::class, 'downloadPdf'])
+                ->name('rekam-medis.pdf');
     
-            });
+    });
 
     Route::middleware(['auth'])
     ->prefix('pimpinan')
@@ -176,4 +210,6 @@ Route::post('/register-pasien', [PatientRegisterController::class, 'register'])
     ->group(function () {
         Route::get('/dashboard', [DashboardPimpinanController::class, 'index'])
             ->name('dashboard');
+        Route::get('/laporan-klinik', [LaporanKlinikController::class, 'index'])
+            ->name('laporan-klinik.index');
     });

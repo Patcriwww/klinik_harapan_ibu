@@ -382,6 +382,36 @@
         box-shadow: 0 8px 16px rgba(22, 150, 243, .22);
     }
 
+    .doctor-meta {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .favorite-form {
+        margin-left: auto;
+    }
+
+    .favorite-btn {
+        width: 42px;
+        height: 42px;
+        border: none;
+        border-radius: 50%;
+        background: #f8fafc;
+        font-size: 21px;
+        cursor: pointer;
+        box-shadow: 0 6px 16px rgba(15, 23, 42, .12);
+        transition: .2s;
+    }
+
+    .favorite-btn.active {
+        background: #fee2e2;
+        color: #dc2626;
+    }
+
+    .favorite-btn:hover {
+        transform: scale(1.08);
+    }
+
     @media (max-width: 1200px) {
         .booking-layout {
             grid-template-columns: 1fr;
@@ -431,8 +461,8 @@
             <div class="header-actions">
                 <a href="{{ route('pasien.jadwal-konsultasi.riwayat') }}" class="btn-pill btn-white">
                     Lihat Riwayat
-                </a>
-                <a href="#" class="btn-pill btn-green">❤ Dokter Favorit</a>
+                </a> 
+                <a href="{{ route('pasien.dokter-favorit.index') }}" class="btn-pill btn-green">❤ Dokter Favorit</a>
             </div>
         </div>
 
@@ -497,22 +527,35 @@
                         @endphp
 
                         <div class="doctor-card">
-                            <div class="doctor-top">
+                           <div class="doctor-top">
                                 @if($dokter->foto)
                                     <img src="{{ asset('storage/'.$dokter->foto) }}"
-                                         class="doctor-photo"
-                                         alt="{{ $dokter->nama }}">
+                                        class="doctor-photo"
+                                        alt="{{ $dokter->nama }}">
                                 @else
-                                    <div class="doctor-photo" style="background:#dbeafe;color:#2563eb;display:flex;align-items:center;justify-content:center;font-weight:900;">
+                                    <div class="doctor-photo"
+                                        style="background:#dbeafe;color:#2563eb;display:flex;align-items:center;justify-content:center;font-weight:900;">
                                         {{ strtoupper(substr($dokter->nama, 0, 1)) }}
                                     </div>
                                 @endif
 
-                                <div>
+                                <div class="doctor-meta">
                                     <span class="doctor-specialist">{{ $dokter->spesialis }}</span>
                                     <h6 class="doctor-name">{{ $dokter->nama }}</h6>
                                     <div class="doctor-review">⭐ 4.9 (120+ Review)</div>
                                 </div>
+
+                                <form action="{{ route('pasien.dokter-favorit.toggle', $dokter->id) }}"
+                                    method="POST"
+                                    class="favorite-form">
+                                    @csrf
+
+                                    <button type="submit"
+                                            class="favorite-btn {{ in_array($dokter->id, $favoritDokterIds ?? []) ? 'active' : '' }}"
+                                            title="Tambah/Hapus Favorit">
+                                        {{ in_array($dokter->id, $favoritDokterIds ?? []) ? '❤️' : '🤍' }}
+                                    </button>
+                                </form>
                             </div>
 
                             <div class="doctor-info">
