@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\BookingKonsultasi;
 use App\Models\Pembayaran;
 use App\Models\RekamMedis;
+use App\Helpers\ActivityLogger;
 
 class DashboardPasienController extends Controller
 {

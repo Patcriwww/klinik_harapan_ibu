@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\TenagaMedis;
 use App\Models\JadwalPraktik;
 use Illuminate\Http\Request;
+use App\Helpers\ActivityLogger;
 
 class DokterController extends Controller
 {

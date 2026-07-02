@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Helpers\ActivityLogger;
 
 class LoginController extends Controller
 {
@@ -30,6 +31,11 @@ class LoginController extends Controller
             $request->session()->regenerate();
 
             $user = Auth::user();
+            ActivityLogger::log(
+                'Login',
+                'Authentication',
+                'User ' . $user->name . ' berhasil login ke sistem.'
+            );
 
             if ($user->hasRole('admin')) {
                 return redirect()->route('admin.backoffice.dashboard');
@@ -65,6 +71,16 @@ class LoginController extends Controller
 
     public function logout(Request $request)
     {
+        $user = Auth::user();
+
+        if ($user) {
+            ActivityLogger::log(
+                'Logout',
+                'Authentication',
+                'User ' . $user->name . ' keluar dari sistem.'
+            );
+        }
+
         Auth::logout();
 
         $request->session()->invalidate();

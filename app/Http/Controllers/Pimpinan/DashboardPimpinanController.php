@@ -8,6 +8,7 @@ use App\Models\TenagaMedis;
 use App\Models\BookingKonsultasi;
 use App\Models\Pembayaran;
 use Illuminate\Support\Facades\DB;
+use App\Helpers\ActivityLogger;
 
 class DashboardPimpinanController extends Controller
 {

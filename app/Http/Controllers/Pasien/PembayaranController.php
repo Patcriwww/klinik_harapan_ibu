@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Pasien;
 use App\Http\Controllers\Controller;
 use App\Models\Pembayaran;
 use Illuminate\Http\Request;
+use App\Helpers\ActivityLogger;
 
 class PembayaranController extends Controller
 {
@@ -46,6 +47,11 @@ class PembayaranController extends Controller
             'bukti_bayar' => $path,
             'status' => 'menunggu_verifikasi'
         ]);
+        ActivityLogger::log(
+            'Upload Bukti Pembayaran',
+            'Pembayaran',
+            'Mengunggah bukti pembayaran.'
+        );
 
         return back()->with(
             'success',

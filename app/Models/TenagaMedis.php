@@ -23,4 +23,9 @@ class TenagaMedis extends Model
         return $this->hasMany(JadwalPraktik::class);
     }
 
+    public function favorit()
+    {
+        return $this->hasMany(\App\Models\DokterFavorit::class, 'tenaga_medis_id');
+    }
+
 }

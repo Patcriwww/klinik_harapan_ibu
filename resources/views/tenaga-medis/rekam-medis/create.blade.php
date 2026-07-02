@@ -221,6 +221,57 @@
                               placeholder="Catatan tambahan untuk pasien...">{{ old('catatan_dokter') }}</textarea>
                 </div>
             </div>
+            <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:18px;">
+                <div>
+                    <label style="font-weight:900;color:#475569;display:block;margin-bottom:8px;">
+                        Berat Badan (kg)
+                    </label>
+                    <input type="number" step="0.01" name="berat_badan"
+                        placeholder="Contoh: 12.5"
+                        value="{{ old('berat_badan') }}"
+                        style="width:100%;height:48px;border:1px solid #e2e8f0;border-radius:16px;padding:0 14px;">
+                </div>
+
+                <div>
+                    <label style="font-weight:900;color:#475569;display:block;margin-bottom:8px;">
+                        Tinggi Badan (cm)
+                    </label>
+                    <input type="number" step="0.01" name="tinggi_badan"
+                        placeholder="Contoh: 90"
+                        value="{{ old('tinggi_badan') }}"
+                        style="width:100%;height:48px;border:1px solid #e2e8f0;border-radius:16px;padding:0 14px;">
+                </div>
+
+                <div>
+                    <label style="font-weight:900;color:#475569;display:block;margin-bottom:8px;">
+                        Lingkar Kepala (cm)
+                    </label>
+                    <input type="number" step="0.01" name="lingkar_kepala"
+                        placeholder="Contoh: 48"
+                        value="{{ old('lingkar_kepala') }}"
+                        style="width:100%;height:48px;border:1px solid #e2e8f0;border-radius:16px;padding:0 14px;">
+                </div>
+
+                <div>
+                    <label style="font-weight:900;color:#475569;display:block;margin-bottom:8px;">
+                        Suhu Tubuh (°C)
+                    </label>
+                    <input type="number" step="0.1" name="suhu"
+                        placeholder="Contoh: 36.8"
+                        value="{{ old('suhu') }}"
+                        style="width:100%;height:48px;border:1px solid #e2e8f0;border-radius:16px;padding:0 14px;">
+                </div>
+
+                <div>
+                    <label style="font-weight:900;color:#475569;display:block;margin-bottom:8px;">
+                        Tekanan Darah
+                    </label>
+                    <input type="text" name="tekanan_darah"
+                        placeholder="Contoh: 110/70"
+                        value="{{ old('tekanan_darah') }}"
+                        style="width:100%;height:48px;border:1px solid #e2e8f0;border-radius:16px;padding:0 14px;">
+                </div>
+            </div>
 
             <div class="btn-row">
                 <a href="{{ route('tenaga-medis.dashboard', ['tanggal' => $booking->tanggal_konsultasi]) }}"

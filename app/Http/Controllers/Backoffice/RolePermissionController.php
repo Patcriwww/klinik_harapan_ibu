@@ -9,70 +9,73 @@ use Spatie\Permission\Models\Permission;
 
 class RolePermissionController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $roles = Role::with('permissions')->get();
+        $roles = Role::orderBy('name')->get();
+        $permissions = Permission::orderBy('name')->get();
 
-        return view('admin.backoffice.roles.index', compact('roles'));
+        $selectedRole = null;
+        $rolePermissions = [];
+
+        if ($request->filled('role_id')) {
+            $selectedRole = Role::find($request->role_id);
+
+            if ($selectedRole) {
+                $rolePermissions = $selectedRole->permissions
+                    ->pluck('name')
+                    ->toArray();
+            }
+        }
+
+        return view('backoffice.roles.index', compact(
+            'roles',
+            'permissions',
+            'selectedRole',
+            'rolePermissions'
+        ));
     }
 
-    public function create()
-    {
-        $permissions = Permission::all();
-
-        return view('admin.backoffice.roles.create', compact('permissions'));
-    }
-
-    public function store(Request $request)
+    public function storeRole(Request $request)
     {
         $request->validate([
-            'name' => 'required|unique:roles,name',
-            'permissions' => 'array',
+            'name' => 'required|string|max:100|unique:roles,name',
         ]);
 
-        $role = Role::create([
+        Role::create([
             'name' => $request->name,
             'guard_name' => 'web',
         ]);
 
-        $role->syncPermissions($request->permissions ?? []);
-
-        return redirect()
-            ->route('backoffice.roles.index')
-            ->with('success', 'Role berhasil ditambahkan.');
+        return back()->with('success', 'Role berhasil ditambahkan.');
     }
 
-    public function edit(Role $role)
-    {
-        $permissions = Permission::all();
-
-        return view('admin.backoffice.roles.edit', compact('role', 'permissions'));
-    }
-
-    public function update(Request $request, Role $role)
+    public function storePermission(Request $request)
     {
         $request->validate([
-            'name' => 'required|unique:roles,name,' . $role->id,
-            'permissions' => 'array',
+            'name' => 'required|string|max:100|unique:permissions,name',
         ]);
 
-        $role->update([
+        Permission::create([
             'name' => $request->name,
+            'guard_name' => 'web',
         ]);
+
+        return back()->with('success', 'Permission berhasil ditambahkan.');
+    }
+
+    public function syncPermission(Request $request)
+    {
+        $request->validate([
+            'role_id' => 'required|exists:roles,id',
+            'permissions' => 'nullable|array',
+        ]);
+
+        $role = Role::findOrFail($request->role_id);
 
         $role->syncPermissions($request->permissions ?? []);
 
         return redirect()
-            ->route('backoffice.roles.index')
-            ->with('success', 'Role berhasil diperbarui.');
-    }
-
-    public function destroy(Role $role)
-    {
-        $role->delete();
-
-        return redirect()
-            ->route('backoffice.roles.index')
-            ->with('success', 'Role berhasil dihapus.');
+            ->route('admin.backoffice.role-permission.index', ['role_id' => $role->id])
+            ->with('success', 'Permission role berhasil diperbarui.');
     }
 }
