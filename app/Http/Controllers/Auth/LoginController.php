@@ -45,7 +45,7 @@ class LoginController extends Controller
                 return redirect()->route('pasien.dashboard');
             }
 
-            if ($user->hasRole('tenaga_medis')) {
+            if ($user->hasRole('tenaga_medis') || $user->hasRole('dokter')) {
                 return redirect()->route('tenaga-medis.dashboard');
             }
 

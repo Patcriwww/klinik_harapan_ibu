@@ -8,6 +8,13 @@ use Spatie\Permission\Models\Permission;
 
 class PermissionController extends Controller
 {
+    public function index()
+    {
+        $permissions = Permission::orderBy('name')->paginate(20);
+
+        return view('backoffice.permissions.index', compact('permissions'));
+    }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -20,7 +27,7 @@ class PermissionController extends Controller
         ]);
 
         return redirect()
-            ->route('admin.backoffice.roles.index')
+            ->route('admin.backoffice.permissions.index')
             ->with('success', 'Permission berhasil ditambahkan.');
     }
 
@@ -44,7 +51,7 @@ class PermissionController extends Controller
         $permission->delete();
 
         return redirect()
-            ->route('admin.backoffice.roles.index')
+            ->route('admin.backoffice.permissions.index')
             ->with('success', 'Permission berhasil dihapus.');
     }
 }

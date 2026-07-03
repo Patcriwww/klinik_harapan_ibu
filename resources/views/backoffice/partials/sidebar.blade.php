@@ -114,6 +114,7 @@
                 'active' => request()->routeIs('admin.backoffice.activity-log.*'),
                 'icon' => 'ni ni-bullet-list-67',
                 'color' => '#7c3aed',
+                'permission' => 'dashboard.view',
             ],
         ];
     }
@@ -182,6 +183,7 @@
                 'active' => request()->routeIs('pasien.catatan-pertumbuhan.*'),
                 'icon' => 'ni ni-chart-bar-32',
                 'color' => '#10b981',
+                'permission' => 'rekam-medis.view',
             ],
             
         ];
