@@ -34,4 +34,8 @@ class User extends Authenticatable
     {
         return $this->belongsTo(\App\Models\Role::class);
     }
+    public function dokterFavorit()
+    {
+        return $this->hasMany(\App\Models\DokterFavorit::class, 'user_id');
+    }
 }

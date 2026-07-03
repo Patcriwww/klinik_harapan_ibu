@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backoffice;
 use App\Http\Controllers\Controller;
 use App\Models\Pembayaran;
 use Illuminate\Http\Request;
+use App\Helpers\ActivityLogger;
 
 class PembayaranController extends Controller
 {
@@ -65,6 +66,11 @@ class PembayaranController extends Controller
             'status' => 'dibayar',
             'catatan' => 'Pembayaran telah diverifikasi admin.',
         ]);
+        ActivityLogger::log(
+            'Verifikasi Pembayaran',
+            'Pembayaran',
+            'Pembayaran invoice ' . $pembayaran->invoice_no . ' berhasil diverifikasi.'
+        );
 
         return back()->with('success', 'Pembayaran berhasil disetujui.');
     }
@@ -75,6 +81,11 @@ class PembayaranController extends Controller
             'status' => 'ditolak',
             'catatan' => 'Pembayaran ditolak oleh admin.',
         ]);
+        ActivityLogger::log(
+            'Verifikasi Pembayaran',
+            'Pembayaran',
+            'Pembayaran invoice ' . $pembayaran->invoice_no . ' berhasil diverifikasi.'
+        );
 
         return back()->with('success', 'Pembayaran berhasil ditolak.');
     }

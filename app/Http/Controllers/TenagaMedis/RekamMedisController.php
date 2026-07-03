@@ -5,24 +5,135 @@ namespace App\Http\Controllers\TenagaMedis;
 use App\Http\Controllers\Controller;
 use App\Models\RekamMedis;
 use App\Models\TenagaMedis;
+use Illuminate\Http\Request;
+use App\Models\BookingKonsultasi;
+use Barryvdh\DomPDF\Facade\Pdf;
+use App\Helpers\ActivityLogger;
 
 class RekamMedisController extends Controller
 {
-    public function index()
+    private function getTenagaMedis()
     {
-        $tenagaMedis = TenagaMedis::where('email', auth()->user()->email)
+        return TenagaMedis::where('email', auth()->user()->email)
             ->orWhere('nama', auth()->user()->name)
-            ->first();
+            ->firstOrFail();
+    }
 
-        $rekamMedis = collect();
+    public function index(Request $request)
+    {
+        $tenagaMedis = $this->getTenagaMedis();
 
-        if ($tenagaMedis) {
-            $rekamMedis = RekamMedis::with(['pasien', 'booking'])
-                ->where('tenaga_medis_id', $tenagaMedis->id)
-                ->latest()
-                ->get();
+        $bookings = BookingKonsultasi::with([
+                'pasien',
+                'tenagaMedis',
+                'pembayaran',
+                'rekamMedis'
+            ])
+            ->where('tenaga_medis_id', $tenagaMedis->id)
+            ->when($request->tanggal, function ($query) use ($request) {
+                $query->whereDate('tanggal_konsultasi', $request->tanggal);
+            })
+            ->when($request->status, function ($query) use ($request) {
+                $query->where('status', $request->status);
+            })
+            ->when($request->search, function ($query) use ($request) {
+                $query->whereHas('pasien', function ($q) use ($request) {
+                    $q->where('name', 'ILIKE', '%' . $request->search . '%')
+                      ->orWhere('email', 'ILIKE', '%' . $request->search . '%');
+                });
+            })
+            ->latest()
+            ->get();
+
+        return view('tenaga-medis.rekam-medis.index', compact(
+            'bookings',
+            'tenagaMedis'
+        ));
+    }
+
+    public function show(RekamMedis $rekamMedis)
+    {
+        $tenagaMedis = $this->getTenagaMedis();
+
+        if ($rekamMedis->tenaga_medis_id !== $tenagaMedis->id) {
+            abort(403);
         }
 
-        return view('tenaga-medis.rekam-medis.index', compact('rekamMedis', 'tenagaMedis'));
+        $rekamMedis->load([
+            'pasien',
+            'tenagaMedis',
+            'booking',
+        ]);
+
+        return view('tenaga-medis.rekam-medis.show', compact('rekamMedis'));
+    }
+
+    public function edit(RekamMedis $rekamMedis)
+    {
+        $tenagaMedis = $this->getTenagaMedis();
+
+        if ($rekamMedis->tenaga_medis_id !== $tenagaMedis->id) {
+            abort(403);
+        }
+
+        $rekamMedis->load([
+            'pasien',
+            'tenagaMedis',
+            'booking',
+        ]);
+
+        return view('tenaga-medis.rekam-medis.edit', compact('rekamMedis'));
+    }
+
+    public function update(Request $request, RekamMedis $rekamMedis)
+    {
+        $tenagaMedis = $this->getTenagaMedis();
+
+        if ($rekamMedis->tenaga_medis_id !== $tenagaMedis->id) {
+            abort(403);
+        }
+
+        $request->validate([
+            'diagnosa' => 'required|string|max:2000',
+            'tindakan' => 'nullable|string|max:2000',
+            'resep_obat' => 'nullable|string|max:2000',
+            'catatan_dokter' => 'nullable|string|max:2000',
+            'berat_badan' => 'nullable|numeric',
+            'tinggi_badan' => 'nullable|numeric',
+            'lingkar_kepala' => 'nullable|numeric',
+            'suhu' => 'nullable|numeric',
+            'tekanan_darah' => 'nullable|string|max:50',
+        ]);
+
+        $rekamMedis->update([
+            'diagnosa' => $request->diagnosa,
+            'tindakan' => $request->tindakan,
+            'resep_obat' => $request->resep_obat,
+            'catatan_dokter' => $request->catatan_dokter,
+            'berat_badan' => $request->berat_badan,
+            'tinggi_badan' => $request->tinggi_badan,
+            'lingkar_kepala' => $request->lingkar_kepala,
+            'suhu' => $request->suhu,
+            'tekanan_darah' => $request->tekanan_darah,
+        ]);
+        ActivityLogger::log(
+            'Update Rekam Medis',
+            'Rekam Medis',
+            'Mengubah rekam medis pasien ' . $rekamMedis->pasien->name
+        );
+
+        return redirect()
+            ->route('tenaga-medis.rekam-medis.show', $rekamMedis->id)
+            ->with('success', 'Rekam medis berhasil diperbarui.');
+    }
+
+    public function downloadPdf(RekamMedis $rekamMedis)
+    {
+        $rekamMedis->load(['pasien', 'tenagaMedis', 'booking']);
+
+        $pdf = Pdf::loadView('tenaga-medis.rekam-medis.pdf', compact('rekamMedis'))
+            ->setPaper('a4', 'portrait');
+
+        return $pdf->download('rekam-medis-' . $rekamMedis->id . '.pdf');
     }
 }

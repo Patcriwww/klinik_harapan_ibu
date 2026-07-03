@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\TenagaMedis;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use App\Helpers\ActivityLogger;
 
 class TenagaMedisController extends Controller
 {
@@ -47,6 +48,11 @@ class TenagaMedisController extends Controller
 
         TenagaMedis::create($data);
 
+        ActivityLogger::log(
+            'Tambah Tenaga Medis',
+            'Master Data',
+            'Menambahkan tenaga medis baru.'
+        );
         return redirect()
             ->route('admin.backoffice.tenaga-medis.index')
             ->with('success', 'Data tenaga medis berhasil ditambahkan.');
