@@ -155,8 +155,8 @@
             ],
             [
                 'title' => 'Catatan Pertumbuhan',
-                'url' => url('/pasien/catatan-pertumbuhan'),
-                'active' => request()->is('pasien/catatan-pertumbuhan*'),
+                'url' => route('pasien.catatan-pertumbuhan.index'),
+                'active' => request()->routeIs('pasien.catatan-pertumbuhan.*'),
                 'icon' => 'ni ni-chart-bar-32',
                 'color' => '#f97316',
                 'permission' => 'rekam-medis.view',
@@ -177,15 +177,6 @@
                 'color' => '#22c55e',
                 'permission' => 'pembayaran.view',
             ],
-           [
-                'title' => 'Catatan Pertumbuhan',
-                'url' => route('pasien.catatan-pertumbuhan.index'),
-                'active' => request()->routeIs('pasien.catatan-pertumbuhan.*'),
-                'icon' => 'ni ni-chart-bar-32',
-                'color' => '#10b981',
-                'permission' => 'rekam-medis.view',
-            ],
-            
         ];
     }
 
@@ -217,24 +208,24 @@
             ],
             [
                 'title' => 'Resep Obat',
-                'url' => url('/tenaga-medis/resep'),
-                'active' => request()->is('tenaga-medis/resep*'),
+                'url' => route('tenaga-medis.resep.index'),
+                'active' => request()->routeIs('tenaga-medis.resep.*'),
                 'icon' => 'ni ni-collection',
                 'color' => '#8b5cf6',
                 'permission' => 'resep.view',
             ],
             [
                 'title' => 'Hasil Laboratorium',
-                'url' => url('/tenaga-medis/hasil-lab'),
-                'active' => request()->is('tenaga-medis/hasil-lab*'),
+                'url' => route('tenaga-medis.hasil-lab.index'),
+                'active' => request()->routeIs('tenaga-medis.hasil-lab.*'),
                 'icon' => 'ni ni-atom',
                 'color' => '#14b8a6',
                 'permission' => 'rekam-medis.view',
             ],
             [
                 'title' => 'Profil Tenaga Medis',
-                'url' => url('/tenaga-medis/profil'),
-                'active' => request()->is('tenaga-medis/profil*'),
+                'url' => route('tenaga-medis.profil.index'),
+                'active' => request()->routeIs('tenaga-medis.profil.*'),
                 'icon' => 'ni ni-badge',
                 'color' => '#64748b',
                 'permission' => 'dashboard.view',
@@ -459,3 +450,12 @@
         }
     }
 </style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var activeMenu = document.querySelector('.clinic-sidebar-menu .clinic-menu-item.active');
+        if (activeMenu) {
+            activeMenu.scrollIntoView({ block: 'nearest' });
+        }
+    });
+</script>

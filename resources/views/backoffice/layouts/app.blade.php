@@ -44,7 +44,6 @@
       </style>
       
   </head>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <body class="m-0 font-sans text-base antialiased font-normal dark:bg-slate-900 leading-default bg-gray-50 text-slate-500">
     <div class="absolute w-full bg-blue-500 dark:hidden min-h-75"></div>
     <!-- sidenav  -->
@@ -75,6 +74,7 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <link href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css" rel="stylesheet">
   <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   @stack('scripts')
 </html>

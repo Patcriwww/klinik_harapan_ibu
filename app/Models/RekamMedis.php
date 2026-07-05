@@ -16,6 +16,7 @@ class RekamMedis extends Model
         'diagnosa',
         'tindakan',
         'resep_obat',
+        'hasil_lab',
         'catatan_dokter',
         'tanggal_pemeriksaan',
         'berat_badan',

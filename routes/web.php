@@ -28,6 +28,9 @@ use App\Http\Controllers\Pasien\DokterFavoritController;
 use App\Http\Controllers\Backoffice\ExportController;
 use App\Http\Controllers\Backoffice\PasienController;
 use App\Http\Controllers\Pimpinan\LaporanKlinikController;
+use App\Http\Controllers\TenagaMedis\ResepController;
+use App\Http\Controllers\TenagaMedis\HasilLabController;
+use App\Http\Controllers\TenagaMedis\ProfilController as TenagaMedisProfilController;
 
 Auth::routes();
 
@@ -204,7 +207,15 @@ Route::post('/register-pasien', [PatientRegisterController::class, 'register'])
                 ->name('rekam-medis.update');
             Route::get('/rekam-medis/{rekamMedis}/pdf', [TenagaMedisRekamMedisController::class, 'downloadPdf'])
                 ->name('rekam-medis.pdf');
-    
+
+            Route::get('/resep', [ResepController::class, 'index'])->name('resep.index');
+
+            Route::get('/hasil-lab', [HasilLabController::class, 'index'])->name('hasil-lab.index');
+            Route::get('/hasil-lab/{rekamMedis}/edit', [HasilLabController::class, 'edit'])->name('hasil-lab.edit');
+            Route::put('/hasil-lab/{rekamMedis}', [HasilLabController::class, 'update'])->name('hasil-lab.update');
+
+            Route::get('/profil', [TenagaMedisProfilController::class, 'index'])->name('profil.index');
+            Route::put('/profil', [TenagaMedisProfilController::class, 'update'])->name('profil.update');
     });
 
     Route::middleware(['auth'])

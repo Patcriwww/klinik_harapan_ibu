@@ -10,7 +10,7 @@ class UserSeeder extends Seeder
 {
     public function run(): void
     {
-        $user = User::firstOrCreate(
+        $admin = User::firstOrCreate(
             ['email' => 'superadmin@gmail.com'],
             [
                 'name' => 'Super Admin',
@@ -18,6 +18,26 @@ class UserSeeder extends Seeder
             ]
         );
 
-        $user->assignRole('admin');
+        $admin->assignRole('admin');
+
+        $dokter = User::firstOrCreate(
+            ['email' => 'hana@klinikkharapanibu.com'],
+            [
+                'name' => 'Dr. Hana Wijaya',
+                'password' => Hash::make('password'),
+            ]
+        );
+
+        $dokter->assignRole('dokter');
+
+        $pimpinan = User::firstOrCreate(
+            ['email' => 'pimpinan@klinikkharapanibu.com'],
+            [
+                'name' => 'Pimpinan Klinik',
+                'password' => Hash::make('password'),
+            ]
+        );
+
+        $pimpinan->assignRole('pimpinan');
     }
 }

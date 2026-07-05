@@ -10,3 +10,4 @@
     'method' => 'POST',
     'pasien' => null
 ])
+@endsection
